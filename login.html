@@ -94,7 +94,7 @@
     </div>
 
     <script>
-        // تم تحديث الرابط بنجاح
+        // رابط السيرفر المحدث الخاص بك
         const scriptURL = "https://script.google.com/macros/s/AKfycbwO6ybu74wWvbcpUnyB-wpGhgMbmzJGbZrETeAlXddbrZtu1HbHJhs051OaoggnNQ0z/exec";
 
         const form = document.getElementById('loginForm');
@@ -103,7 +103,7 @@
 
         form.addEventListener('submit', e => {
             e.preventDefault();
-            errorMsg.textContent = "جاري التحقق...";
+            errorMsg.textContent = "جاري التحقق وتسجيل الدخول...";
             submitBtn.disabled = true;
 
             const data = new URLSearchParams(new FormData(form));
@@ -118,13 +118,14 @@
                     localStorage.setItem('user', JSON.stringify(result.user));
                     window.location.href = "dashboard.html";
                 } else {
-                    errorMsg.textContent = result.message || "خطأ في البيانات";
+                    errorMsg.textContent = result.message || "البريد الإلكتروني أو كلمة المرور غير صحيحة";
                     submitBtn.disabled = false;
                 }
             })
             .catch(error => {
                 errorMsg.textContent = "خطأ في الاتصال بالسيرفر.";
                 submitBtn.disabled = false;
+                console.error('Error!', error);
             });
         });
     </script>
