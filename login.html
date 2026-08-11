@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>تسجيل الدخول — منصة الإقبال التعليمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background: #F8F9FA; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { color: #0A5C4D; text-align: center; }
+        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #E2E8F0; border-radius: 8px; box-sizing: border-box; }
+        button { width: 100%; padding: 12px; background: #0A5C4D; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 10px; }
+        button:hover { background: #063C32; }
+        .message { text-align: center; margin-top: 15px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+<div class="login-card">
+    <h2>تسجيل الدخول</h2>
+    <input type="email" id="email" placeholder="البريد الإلكتروني">
+    <input type="password" id="password" placeholder="كلمة المرور">
+    <button onclick="login()">دخول</button>
+    <div id="message" class="message"></div>
+</div>
+
+<script>
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbyRJR8Vmlim2W3FWlukNZCtHxsjC68RdaDKtnybaOsFWHfm0_lL_HjI-lX36gxHgEWg/exec';
+
+    async function login() {
+        const msg = document.getElementById('message');
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+
+        msg.innerHTML = "جاري التحقق...";
+        
+        try {
+            const response = await fetch(scriptURL, {
+                method: 'POST',
+                body: JSON.stringify({ action: 'login', email, password })
+            });
+            const data = await response.json();
+
+            if (data.status === 'success') {
+                msg.innerHTML = "أهلاً بك " + data.name;
+                // حفظ بيانات المستخدم في المتصفح
+                localStorage.setItem('user', JSON.stringify(data));
+                // التوجيه بناءً على الدور
+                setTimeout(() => {
+                    window.location.href = 'index.html'; 
+                }, 1000);
+            } else {
+                msg.innerHTML = data.message;
+            }
+        } catch (e) {
+            msg.innerHTML = "خطأ في الاتصال بالسيرفر";
+        }
+    }
+</script>
+
+</body>
+</html>
