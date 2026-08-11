@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>لوحة التحكم — منصة الإقبال التعليمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Tajawal', sans-serif; background: #F8F9FA; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: 40px auto; background: white; padding: 30px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); }
+        h1 { color: #0A5C4D; margin-top: 0; }
+        .card { background: #F0FFF4; border: 1px solid #C6F6D5; padding: 20px; border-radius: 10px; margin-bottom: 20px; }
+        .btn { display: inline-block; padding: 10px 20px; background: #0A5C4D; color: white; text-decoration: none; border-radius: 6px; margin-top: 10px; border: none; cursor: pointer; }
+        .btn:hover { background: #063C32; }
+        .hidden { display: none; }
+        .logout { background: #C53030; float: left; }
+        .logout:hover { background: #9B2C2C; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <button class="btn logout" onclick="logout()">تسجيل الخروج</button>
+    <h1 id="welcomeText">أهلاً بك</h1>
+    <p>دورك الحالي في النظام: <strong id="userRoleText"></strong></p>
+
+    <!-- قسم المسؤول الأعلى (Super Admin) -->
+    <div id="superAdminSection" class="card hidden">
+        <h3>لوحة تحكم المسؤول الأعلى</h3>
+        <p>بصفتك المسؤول الأعلى، يمكنك إضافة مسؤولين جدد وإدارة النظام بالكامل.</p>
+        <button class="btn" onclick="alert('خاصية إضافة مسؤول ستكون هنا')">إضافة مسؤول جديد</button>
+    </div>
+
+    <!-- قسم المسؤول العادي (Admin) -->
+    <div id="adminSection" class="card hidden">
+        <h3>لوحة تحكم المعلم / المسؤول</h3>
+        <p>يمكنك من هنا إضافة أو تعديل محتوى الدروس والروابط للصفوف الدراسية.</p>
+        <button class="btn" onclick="alert('خاصية إدارة الدروس ستكون هنا')">إدارة محتوى الدروس</button>
+    </div>
+
+    <!-- قسم الطالب (Student) -->
+    <div id="studentSection" class="card">
+        <h3>بوابة الطالب</h3>
+        <p>مرحباً بك في منصة الإقبال التعليمية. يمكنك الانتقال إلى صفوفك الدراسية ومتابعة دروسك واختبارك.</p>
+        <a href="index.html" class="btn">الذهاب إلى الرئيسية والدروس</a>
+    </div>
+</div>
+
+<script>
+    // جلب بيانات المستخدم من المتصفح
+    const userData = JSON.parse(localStorage.getItem('user'));
+
+    if (!userData) {
+        // إذا لم يكن مسجلاً، أعده لصفحة الدخول
+        window.location.href = 'login.html';
+    } else {
+        document.getElementById('welcomeText').innerText = "أهلاً بك، " + userData.name;
+        document.getElementById('userRoleText').innerText = userData.role;
+
+        // إظهار وإخفاء الأقسام بناءً على الرول (Role)
+        if (userData.role === 'superadmin') {
+            document.getElementById('superAdminSection').classList.remove('hidden');
+            document.getElementById('adminSection').classList.remove('hidden');
+        } else if (userData.role === 'admin') {
+            document.getElementById('adminSection').classList.remove('hidden');
+        }
+    }
+
+    function logout() {
+        localStorage.removeItem('user');
+        window.location.href = 'login.html';
+    }
+</script>
+
+</body>
+</html>
