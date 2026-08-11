@@ -1,0 +1,61 @@
+backend:
+  name: git-gateway
+  branch: main
+
+media_folder: "uploads"
+public_folder: "/uploads"
+
+locale: "ar"
+
+collections:
+  - name: "files_data"
+    label: "الملازم والملفات"
+    label_singular: "قسم ملفات"
+    delete: true
+    files:
+      - name: "files_sections"
+        label: "أقسام الملفات"
+        file: "data/files.json"
+        fields:
+          - label: "الأقسام"
+            name: "sections"
+            widget: "list"
+            label_singular: "قسم"
+            summary: "{{fields.title}}"
+            fields:
+              - {label: "عنوان القسم (مثال: الصف التاسع)", name: "title", widget: "string"}
+              - label: "الملفات"
+                name: "items"
+                widget: "list"
+                label_singular: "ملف"
+                summary: "{{fields.name}}"
+                fields:
+                  - {label: "اسم الملف", name: "name", widget: "string"}
+                  - {label: "وصف مختصر", name: "description", widget: "string", required: false}
+                  - {label: "رابط التحميل (Google Drive أو ملف مرفوع)", name: "link", widget: "string"}
+
+  - name: "videos_data"
+    label: "الشرح المرئي"
+    label_singular: "قسم فيديوهات"
+    delete: true
+    files:
+      - name: "videos_sections"
+        label: "أقسام الفيديوهات"
+        file: "data/videos.json"
+        fields:
+          - label: "الأقسام"
+            name: "sections"
+            widget: "list"
+            label_singular: "قسم"
+            summary: "{{fields.title}}"
+            fields:
+              - {label: "عنوان القسم (مثال: الصف التاسع)", name: "title", widget: "string"}
+              - label: "الفيديوهات"
+                name: "items"
+                widget: "list"
+                label_singular: "فيديو"
+                summary: "{{fields.name}}"
+                fields:
+                  - {label: "اسم الفيديو", name: "name", widget: "string"}
+                  - {label: "وصف مختصر", name: "description", widget: "string", required: false}
+                  - {label: "معرّف يوتيوب (الجزء بعد v= بالرابط)", name: "youtube_id", widget: "string", required: false}
