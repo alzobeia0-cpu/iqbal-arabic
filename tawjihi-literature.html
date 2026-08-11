@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>توجيهي - كتاب الأدب — منصة الإقبال التعليمية</title>
+    <title>توجيهي - كتاب الأدب والنصوص — منصة الإقبال التعليمية</title>
     <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
         :root { --bg-color: #F8F9FA; --card-bg: #FFFFFF; --primary: #0A5C4D; --primary-dark: #063C32; --accent: #D4AF37; --text-main: #2D3748; --border-color: #E2E8F0; --shadow: 0 10px 25px -5px rgba(10, 92, 77, 0.08); }
@@ -35,7 +35,7 @@
 
 <header>
     <a href="index.html" class="back-link">← الرئيسية</a>
-    <h1>التوجيهي - كتاب الأدب</h1>
+    <h1>التوجيهي - كتاب الأدب والنصوص</h1>
     <p>اختر الوحدة الدراسية لعرض الدروس والمطالعة</p>
 </header>
 
@@ -44,10 +44,10 @@
 </div>
 
 <script>
-    // رابط السيرفر
+    // رابط السيرفر المشترك
     const scriptURL = 'https://script.google.com/macros/s/AKfycbydMYd8FjYMAxgxjnpr7uqBUFQ8LLhS7XV6SGqCEG-b4FWYxWVwrmSMeirIWOuBquLH/exec';
 
-    // تحديد صف توجيهي أدب (تأكد أنك تكتب في العمود الأول بالجدول كلمة "أدب" أو "توجيهي أدب")
+    // القيمة المعرفة في عمود الصف ضمن جدول البيانات لهذا الكتاب
     const targetGrade = "أدب"; 
 
     async function loadLessons() {
@@ -58,7 +58,7 @@
             
             const gradeData = data.filter(item => {
                 const g = String(item.grade).trim();
-                return g === targetGrade || g.includes("أدب") || g.includes("التوجيهي الأدب");
+                return g === targetGrade || g.includes("أدب") || g.includes("الأدب");
             });
 
             if (gradeData.length === 0) {
