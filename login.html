@@ -94,7 +94,7 @@
     </div>
 
     <script>
-        // رابط السيرفر المحدث الخاص بك
+        // رابط السيرفر الخاص بك
         const scriptURL = "https://script.google.com/macros/s/AKfycbwO6ybu74wWvbcpUnyB-wpGhgMbmzJGbZrETeAlXddbrZtu1HbHJhs051OaoggnNQ0z/exec";
 
         const form = document.getElementById('loginForm');
@@ -123,9 +123,8 @@
                 }
             })
             .catch(error => {
-                errorMsg.textContent = "خطأ في الاتصال بالسيرفر.";
+                errorMsg.textContent = "البريد الإلكتروني أو كلمة المرور غير صحيحة";
                 submitBtn.disabled = false;
-                console.error('Error!', error);
             });
         });
     </script>
