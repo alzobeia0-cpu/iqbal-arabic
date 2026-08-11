@@ -44,40 +44,25 @@
 </div>
 
 <script>
-    const sheetHTMLURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQc-GebJO-z5OgDXvQlLDBkdE1XFHvL_B2c6GG4hee8G1E5tYs_Vpybki7B_9Byz_lemrtCd1mvaGHd/pubhtml';
+    // رابط السيرفر الخاص بك
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbydMYd8FjYMAxgxjnpr7uqBUFQ8LLhS7XV6SGqCEG-b4FWYxWVwrmSMeirIWOuBquLH/exec';
+
+    // تحديد الصف الرابع
+    const targetGrade = "4"; 
 
     async function loadLessons() {
         const container = document.getElementById('unitsContainer');
         try {
-            const response = await fetch(sheetHTMLURL);
-            const htmlText = await response.text();
+            const response = await fetch(scriptURL);
+            const data = await response.json();
             
-            const parser = new DOMParser();
-            const doc = parser.parseFromString(htmlText, 'text/html');
-            const rows = doc.querySelectorAll('tr');
-
-            let gradeData = [];
-            for (let i = 1; i < rows.length; i++) {
-                const cols = rows[i].querySelectorAll('td');
-                // في pubhtml يكون العمود الأول cols[0] هو رقم السطر، لذا نبدأ من cols[1]
-                if (cols.length >= 7) {
-                    const grade = cols[1] ? cols[1].textContent.trim() : '';
-                    const unit = cols[2] ? cols[2].textContent.trim() : '';
-                    const title = cols[3] ? cols[3].textContent.trim() : '';
-                    const video = cols[4] ? cols[4].textContent.trim() : '';
-                    const pdf = cols[5] ? cols[5].textContent.trim() : '';
-                    const worksheets = cols[6] ? cols[6].textContent.trim() : '';
-                    const quiz = cols[7] ? cols[7].textContent.trim() : '';
-
-                    // التحقق مما إذا كان الصف يوافق الصف الرابع
-                    if (grade == "4" || grade.includes("الرابع")) {
-                        gradeData.push({ unit, title, video, pdf, worksheets, quiz });
-                    }
-                }
-            }
+            const gradeData = data.filter(item => {
+                const g = String(item.grade).trim();
+                return g === targetGrade || g.includes(targetGrade);
+            });
 
             if (gradeData.length === 0) {
-                container.innerHTML = '<div class="loading">لا توجد دروس مضافة لهذا الصف في الجدول حالياً. (تأكد أن العمود الأول في الجدول يكتب فيه رقم 4 أو الصف الرابع)</div>';
+                container.innerHTML = '<div class="loading">لا توجد دروس مضافة لهذا الصف في الجدول حالياً.</div>';
                 return;
             }
 
@@ -114,7 +99,7 @@
                 container.appendChild(section);
             }
         } catch (error) {
-            container.innerHTML = '<div class="loading" style="color: #C53030;">حدث خطأ في قراءة الجدول، تأكد من الاتصال ومن نشر الجدول للعامة.</div>';
+            container.innerHTML = '<div class="loading" style="color: #C53030;">حدث خطأ في الاتصال بالسيرفر، تأكد من صحة الرابط وصلاحيات النشر.</div>';
         }
     }
 
