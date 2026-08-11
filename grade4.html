@@ -40,24 +40,46 @@
 </header>
 
 <div class="container" id="unitsContainer">
-    <div class="loading">جاري جلب الوحدات والدروس من المنصة...</div>
+    <div class="loading">جاري جلب الوحدات والدروس من جدول البيانات...</div>
 </div>
 
 <script>
-    // ضع هنا رابط السيرفر (Google Apps Script) الذي يزودك بالبيانات
-    const scriptURL = 'ضع_رابط_السيرفر_هنا';
+    // رابط جدول البيانات المعتمد
+    const sheetHTMLURL = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQc-GebJO-z5OgDXvQlLDBkdE1XFHvL_B2c6GG4hee8G1E5tYs_Vpybki7B_9Byz_lemrtCd1mvaGHd/pubhtml';
 
     async function loadLessons() {
         const container = document.getElementById('unitsContainer');
         try {
-            const response = await fetch(scriptURL);
-            const data = await response.json();
+            const response = await fetch(sheetHTMLURL);
+            const htmlText = await response.text();
             
-            // فلترة دروس الصف الرابع فقط (مثال)
-            const gradeData = data.filter(item => item.grade == "4");
+            // قراءة الجدول المنشور واستخراج البيانات عبر تحليل الـ HTML الخاص بـ Google Sheets
+            const parser = new DOMParser();
+            const doc = parser.parseFromString(htmlText, 'text/html');
+            const rows = doc.querySelectorAll('tr');
+
+            let gradeData = [];
+            // تخطي صف العنوان والبدء من الصف الثاني
+            for (let i = 1; i < rows.length; i++) {
+                const cols = rows[i].querySelectorAll('td');
+                if (cols.length >= 6) {
+                    const grade = cols[0].textContent.trim();
+                    const unit = cols[1].textContent.trim();
+                    const title = cols[2].textContent.trim();
+                    const video = cols[3].textContent.trim();
+                    const pdf = cols[4].textContent.trim();
+                    const worksheets = cols[5] ? cols[5].textContent.trim() : '';
+                    const quiz = cols[6] ? cols[6].textContent.trim() : '';
+
+                    // فلترة دروس الصف الرابع فقط
+                    if (grade == "4" || grade.includes("الرابع")) {
+                        gradeData.push({ unit, title, video, pdf, worksheets, quiz });
+                    }
+                }
+            }
 
             if (gradeData.length === 0) {
-                container.innerHTML = '<div class="loading">لا توجد دروس مضافة لهذا الصف حالياً.</div>';
+                container.innerHTML = '<div class="loading">لا توجد دروس مضافة لهذا الصف في الجدول حالياً.</div>';
                 return;
             }
 
@@ -78,10 +100,10 @@
                         <div class="lesson-card">
                             <div class="lesson-title">${l.title}</div>
                             <div class="lesson-links">
-                                ${l.video ? `<a href="${l.video}" target="_blank" class="btn-link btn-video">شرح الفيديو</a>` : ''}
-                                ${l.pdf ? `<a href="${l.pdf}" target="_blank" class="btn-link btn-pdf">الكتاب / PDF</a>` : ''}
-                                ${l.worksheets ? `<a href="${l.worksheets}" target="_blank" class="btn-link btn-worksheets">أوراق العمل</a>` : ''}
-                                ${l.quiz ? `<a href="${l.quiz}" target="_blank" class="btn-link btn-quiz">الاختبار</a>` : ''}
+                                ${l.video && l.video !== '#' ? `<a href="${l.video}" target="_blank" class="btn-link btn-video">شرح الفيديو</a>` : ''}
+                                ${l.pdf && l.pdf !== '#' ? `<a href="${l.pdf}" target="_blank" class="btn-link btn-pdf">الكتاب / PDF</a>` : ''}
+                                ${l.worksheets && l.worksheets !== '#' ? `<a href="${l.worksheets}" target="_blank" class="btn-link btn-worksheets">أوراق العمل</a>` : ''}
+                                ${l.quiz && l.quiz !== '#' ? `<a href="${l.quiz}" target="_blank" class="btn-link btn-quiz">الاختبار</a>` : ''}
                             </div>
                         </div>
                     `;
@@ -94,7 +116,7 @@
                 container.appendChild(section);
             }
         } catch (error) {
-            container.innerHTML = '<div class="loading" style="color: #C53030;">حدث خطأ أثناء تحميل البيانات، تأكد من الاتصال.</div>';
+            container.innerHTML = '<div class="loading" style="color: #C53030;">حدث خطأ في قراءة الجدول، تأكد من أن جدول البيانات منشور للعامة (Publish to the web).</div>';
         }
     }
 
