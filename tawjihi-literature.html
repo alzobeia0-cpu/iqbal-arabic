@@ -47,8 +47,8 @@
     // رابط السيرفر المشترك
     const scriptURL = 'https://script.google.com/macros/s/AKfycbydMYd8FjYMAxgxjnpr7uqBUFQ8LLhS7XV6SGqCEG-b4FWYxWVwrmSMeirIWOuBquLH/exec';
 
-    // القيمة المعرفة في عمود الصف ضمن جدول البيانات لهذا الكتاب
-    const targetGrade = "أدب"; 
+    // رمز كتاب الأدب في عمود الصف ضمن جدول البيانات
+    const targetGrade = "12أ"; 
 
     async function loadLessons() {
         const container = document.getElementById('unitsContainer');
@@ -58,7 +58,7 @@
             
             const gradeData = data.filter(item => {
                 const g = String(item.grade).trim();
-                return g === targetGrade || g.includes("أدب") || g.includes("الأدب");
+                return g === targetGrade || g.includes("12أ") || g.includes("أدب");
             });
 
             if (gradeData.length === 0) {
