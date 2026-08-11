@@ -94,8 +94,8 @@
     </div>
 
     <script>
-        // ضع رابط السيرفر الخاص بك هنا بين علامتي التنصيص
-        const scriptURL = "https://script.google.com/macros/s/AKfycbzt4DxPr-t3-IssXX2VUuvYrP70EYkkyQZ70B2RNnn84ih0sCi1C_wwdNlnQvRRU6/exec";
+        // رابط السيرفر الخاص بك
+        const scriptURL = "https://script.google.com/macros/s/AKfycbztBt4DxPr-t3-IssXX2VUuvYrP70EYkkyQZ70B2RNnn84ih0sCi1C_wwdNlnQvRRU6/exec";
 
         const form = document.getElementById('loginForm');
         const errorMsg = document.getElementById('errorMsg');
@@ -106,26 +106,28 @@
             errorMsg.textContent = "جاري التحقق وتسجيل الدخول...";
             submitBtn.disabled = true;
 
-            const formData = new FormData(form);
+            // ترميز البيانات بالشكل الصحيح لتتطابق مع خوادم جوجل
+            const data = new URLSearchParams(new FormData(form));
 
-            fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => response.json())
-                .then(data => {
-                    if (data.status === "success") {
-                        // حفظ بيانات المستخدم والانتقال للوحة التحكم
-                        localStorage.setItem('user', JSON.stringify(data.user));
-                        window.location.href = "dashboard.html";
-                    } else {
-                        errorMsg.textContent = data.message || "خطأ في البريد أو كلمة المرور";
-                        submitBtn.disabled = false;
-                    }
-                })
-                .catch(error => {
-                    // في حال تداخل سياسات الأمان أو بطء الاتصال المؤقت
-                    errorMsg.textContent = "";
-                    alert("تم إرسال الطلب، تأكد من صحة بياناتك أو إعادة المحاولة.");
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: data 
+            })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === "success") {
+                    localStorage.setItem('user', JSON.stringify(result.user));
+                    window.location.href = "dashboard.html";
+                } else {
+                    errorMsg.textContent = result.message || "خطأ في البريد أو كلمة المرور";
                     submitBtn.disabled = false;
-                });
+                }
+            })
+            .catch(error => {
+                errorMsg.textContent = "خطأ في الاتصال بالسيرفر. تأكد من إعدادات النشر.";
+                submitBtn.disabled = false;
+                console.error('Error!', error);
+            });
         });
     </script>
 
