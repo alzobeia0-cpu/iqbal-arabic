@@ -60,3 +60,29 @@ collections:
                   - {label: "اسم الفيديو", name: "name", widget: "string"}
                   - {label: "وصف مختصر", name: "description", widget: "string", required: false}
                   - {label: "معرّف يوتيوب (الجزء بعد v= بالرابط)", name: "youtube_id", widget: "string", required: false}
+
+  - name: "tests_data"
+    label: "الاختبارات"
+    label_singular: "قسم اختبارات"
+    delete: true
+    files:
+      - name: "tests_sections"
+        label: "أقسام الاختبارات"
+        file: "data/tests.json"
+        fields:
+          - label: "الأقسام"
+            name: "sections"
+            widget: "list"
+            label_singular: "وحدة"
+            summary: "{{fields.title}}"
+            fields:
+              - {label: "عنوان الوحدة (مثال: الوحدة الأولى)", name: "title", widget: "string"}
+              - label: "الاختبارات"
+                name: "items"
+                widget: "list"
+                label_singular: "اختبار"
+                summary: "{{fields.name}}"
+                fields:
+                  - {label: "اسم الاختبار", name: "name", widget: "string"}
+                  - {label: "وصف مختصر", name: "description", widget: "string", required: false}
+                  - {label: "رابط الاختبار (Google Forms)", name: "link", widget: "string"}
