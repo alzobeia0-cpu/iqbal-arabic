@@ -1,23 +1,164 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>لوحة تحكم منصة الإقبال</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرئيسية - منصة الإقبال في اللغة العربية</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #0d9488;
+            --accent-color: #f59e0b;
+            --bg-color: #f8fafc;
+            --text-color: #334155;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        header {
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #ffffff;
+            text-align: center;
+            padding: 4rem 2rem;
+        }
+        .page-header h1 {
+            font-size: 2.2rem;
+            margin-bottom: 0.8rem;
+        }
+        .page-header p {
+            font-size: 1.1rem;
+            opacity: 0.9;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+        .card {
+            background: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 2.5rem 2rem;
+            text-align: center;
+            text-decoration: none;
+            color: var(--text-color);
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid var(--secondary-color);
+        }
+        .card:hover {
+            transform: translateY(-6px);
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+        }
+        .card-icon {
+            font-size: 2.8rem;
+            margin-bottom: 1rem;
+        }
+        .card h3 {
+            color: var(--primary-color);
+            font-size: 1.3rem;
+            margin-bottom: 0.6rem;
+        }
+        .card p {
+            color: #64748b;
+            font-size: 0.95rem;
+        }
+        footer {
+            background: #0f172a;
+            color: #ffffff;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+    </style>
 </head>
 <body>
-    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
-    <script>
-        if (window.netlifyIdentity) {
-            window.netlifyIdentity.on("init", user => {
-                if (!user) {
-                    window.netlifyIdentity.on("login", () => {
-                        document.location.href = "/admin/";
-                    });
-                }
-            });
-        }
-    </script>
-    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">منصة الإقبال</div>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="files.html">الملازم والملفات</a></li>
+                <li><a href="videos.html">الشرح المرئي</a></li>
+                <li><a href="#">تواصل معنا</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <h1>مرحبًا بكم في منصة الإقبال</h1>
+        <p>منصتكم التعليمية لمادة اللغة العربية، تجمع الملازم والملفات التعليمية والشرح المرئي في مكان واحد.</p>
+    </section>
+
+    <div class="container">
+        <div class="cards-grid">
+            <a href="files.html" class="card">
+                <div class="card-icon">📚</div>
+                <h3>الملازم والملفات</h3>
+                <p>تصفّح وحمّل الملازم والملفات التعليمية الخاصة بكل صف ووحدة.</p>
+            </a>
+            <a href="videos.html" class="card">
+                <div class="card-icon">🎬</div>
+                <h3>الشرح المرئي</h3>
+                <p>شاهد شروحات الدروس والقواعد بالفيديو خطوة بخطوة.</p>
+            </a>
+        </div>
+    </div>
+
+    <footer>
+        <p>جميع حقوق الطبع والنشر محفوظة © منصة الإقبال في اللغة العربية 2026</p>
+    </footer>
+
 </body>
-</html>
+    </html>
