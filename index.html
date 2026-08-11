@@ -41,26 +41,55 @@
             margin: 0;
         }
         .container { 
-            max-width: 1000px; 
+            max-width: 900px; 
             margin: 40px auto; 
             padding: 0 20px; 
         }
-        .category-box {
+        details.category-box {
             background: var(--white);
             border: 1px solid var(--line);
             border-radius: 14px;
-            padding: 25px;
-            margin-bottom: 30px;
+            margin-bottom: 20px;
             box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+            overflow: hidden;
+            transition: border-color 0.2s;
         }
-        .category-title {
+        details.category-box[open] {
+            border-color: var(--teal);
+        }
+        summary {
             font-family: 'El Messiri', sans-serif;
             color: var(--teal-deep);
             font-size: 1.4rem;
-            margin-top: 0;
-            margin-bottom: 20px;
-            border-right: 4px solid var(--copper);
-            padding-right: 10px;
+            padding: 25px;
+            cursor: pointer;
+            list-style: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            background: var(--white);
+            transition: background 0.2s;
+        }
+        summary:hover {
+            background: var(--teal-light);
+        }
+        summary::-webkit-details-marker {
+            display: none;
+        }
+        summary::after {
+            content: '+';
+            font-size: 1.5rem;
+            color: var(--copper);
+            font-weight: bold;
+        }
+        details[open] summary::after {
+            content: '−';
+        }
+        .category-content {
+            padding: 20px 25px 25px 25px;
+            background: var(--paper);
+            border-top: 1px solid var(--line);
         }
         .grades-grid { 
             display: grid; 
@@ -68,7 +97,7 @@
             gap: 15px; 
         }
         .grade-card { 
-            background: var(--paper); 
+            background: var(--white); 
             border: 1px solid var(--line); 
             border-radius: 10px; 
             padding: 20px; 
@@ -114,72 +143,80 @@
 <div class="container">
 
     <!-- الخانة الأولى: الصفوف الأساسية -->
-    <div class="category-box">
-        <h2 class="category-title">الصفوف الأساسية</h2>
-        <div class="grades-grid">
-            <a href="grade4.html" class="grade-card">
-                <h3>الصف الرابع</h3>
-                <p>الوحدات والشروحات</p>
-            </a>
-            <a href="grade5.html" class="grade-card">
-                <h3>الصف الخامس</h3>
-                <p>الوحدات والشروحات</p>
-            </a>
-            <a href="grade6.html" class="grade-card">
-                <h3>الصف السادس</h3>
-                <p>الوحدات والشروحات</p>
-            </a>
+    <details class="category-box">
+        <summary>الصفوف الأساسية</summary>
+        <div class="category-content">
+            <div class="grades-grid">
+                <a href="grade4.html" class="grade-card">
+                    <h3>الصف الرابع</h3>
+                    <p>الوحدات والشروحات</p>
+                </a>
+                <a href="grade5.html" class="grade-card">
+                    <h3>الصف الخامس</h3>
+                    <p>الوحدات والشروحات</p>
+                </a>
+                <a href="grade6.html" class="grade-card">
+                    <h3>الصف السادس</h3>
+                    <p>الوحدات والشروحات</p>
+                </a>
+            </div>
         </div>
-    </div>
+    </details>
 
     <!-- الخانة الثانية: الصفوف الأساسية العليا -->
-    <div class="category-box">
-        <h2 class="category-title">الصفوف الأساسية العليا</h2>
-        <div class="grades-grid">
-            <a href="grade7.html" class="grade-card">
-                <h3>الصف السابع</h3>
-                <p>الوحدات والشروحات</p>
-            </a>
-            <a href="grade8.html" class="grade-card">
-                <h3>الصف الثامن</h3>
-                <p>الوحدات والشروحات</p>
-            </a>
-            <a href="grade9.html" class="grade-card">
-                <h3>الصف التاسع</h3>
-                <p>الوحدات والشروحات</p>
-            </a>
-            <a href="grade10.html" class="grade-card">
-                <h3>الصف العاشر</h3>
-                <p>الوحدات والشروحات</p>
-            </a>
+    <details class="category-box">
+        <summary>الصفوف الأساسية العليا</summary>
+        <div class="category-content">
+            <div class="grades-grid">
+                <a href="grade7.html" class="grade-card">
+                    <h3>الصف السابع</h3>
+                    <p>الوحدات والشروحات</p>
+                </a>
+                <a href="grade8.html" class="grade-card">
+                    <h3>الصف الثامن</h3>
+                    <p>الوحدات والشروحات</p>
+                </a>
+                <a href="grade9.html" class="grade-card">
+                    <h3>الصف التاسع</h3>
+                    <p>الوحدات والشروحات</p>
+                </a>
+                <a href="grade10.html" class="grade-card">
+                    <h3>الصف العاشر</h3>
+                    <p>الوحدات والشروحات</p>
+                </a>
+            </div>
         </div>
-    </div>
+    </details>
 
     <!-- الخانة الثالثة: المرحلة الثانوية -->
-    <div class="category-box">
-        <h2 class="category-title">المرحلة الثانوية</h2>
-        <div class="grades-grid">
-            <a href="tawjihi-first.html" class="grade-card">
-                <h3>الأول الثانوي</h3>
-                <p>المادة الدراسية</p>
-            </a>
-            <a href="tawjihi-second.html" class="grade-card">
-                <h3>الثاني الثانوي (التوجيهي)</h3>
-                <p>المادة الدراسية</p>
-            </a>
+    <details class="category-box">
+        <summary>المرحلة الثانوية</summary>
+        <div class="category-content">
+            <div class="grades-grid">
+                <a href="tawjihi-first.html" class="grade-card">
+                    <h3>الأول الثانوي</h3>
+                    <p>المادة الدراسية</p>
+                </a>
+                <a href="tawjihi-second.html" class="grade-card">
+                    <h3>الثاني الثانوي (التوجيهي)</h3>
+                    <p>المادة الدراسية</p>
+                </a>
+            </div>
         </div>
-    </div>
+    </details>
 
     <!-- الخانة الرابعة: الدرجة الجامعية الأولى -->
-    <div class="category-box">
-        <h2 class="category-title">الدرجة الجامعية الأولى (البكالوريوس)</h2>
-        <div class="grades-grid">
-            <a href="university.html" class="grade-card">
-                <h3>مساقات اللغة العربية</h3>
-                <p>النحو، الصرف، البلاغة، والأدب</p>
-            </a>
+    <details class="category-box">
+        <summary>الدرجة الجامعية الأولى (البكالوريوس)</summary>
+        <div class="category-content">
+            <div class="grades-grid">
+                <a href="university.html" class="grade-card">
+                    <h3>مساقات اللغة العربية</h3>
+                    <p>النحو، الصرف، البلاغة، والأدب</p>
+                </a>
+            </div>
         </div>
-    </div>
+    </details>
 
 </div>
 
