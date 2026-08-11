@@ -94,8 +94,8 @@
     </div>
 
     <script>
-        // رابط السيرفر الخاص بك
-        const scriptURL = "https://script.google.com/macros/s/AKfycbztBt4DxPr-t3-IssXX2VUuvYrP70EYkkyQZ70B2RNnn84ih0sCi1C_wwdNlnQvRRU6/exec";
+        // تم تحديث الرابط بنجاح
+        const scriptURL = "https://script.google.com/macros/s/AKfycbwO6ybu74wWvbcpUnyB-wpGhgMbmzJGbZrETeAlXddbrZtu1HbHJhs051OaoggnNQ0z/exec";
 
         const form = document.getElementById('loginForm');
         const errorMsg = document.getElementById('errorMsg');
@@ -103,10 +103,9 @@
 
         form.addEventListener('submit', e => {
             e.preventDefault();
-            errorMsg.textContent = "جاري التحقق وتسجيل الدخول...";
+            errorMsg.textContent = "جاري التحقق...";
             submitBtn.disabled = true;
 
-            // ترميز البيانات بالشكل الصحيح لتتطابق مع خوادم جوجل
             const data = new URLSearchParams(new FormData(form));
 
             fetch(scriptURL, { 
@@ -119,17 +118,15 @@
                     localStorage.setItem('user', JSON.stringify(result.user));
                     window.location.href = "dashboard.html";
                 } else {
-                    errorMsg.textContent = result.message || "خطأ في البريد أو كلمة المرور";
+                    errorMsg.textContent = result.message || "خطأ في البيانات";
                     submitBtn.disabled = false;
                 }
             })
             .catch(error => {
-                errorMsg.textContent = "خطأ في الاتصال بالسيرفر. تأكد من إعدادات النشر.";
+                errorMsg.textContent = "خطأ في الاتصال بالسيرفر.";
                 submitBtn.disabled = false;
-                console.error('Error!', error);
             });
         });
     </script>
-
 </body>
 </html>
