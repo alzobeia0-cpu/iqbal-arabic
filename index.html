@@ -3,297 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>منصة الإقبال التعليمية — اللغة العربية</title>
-    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>منصة الإقبال التعليمية</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --bg-color: #F8F9FA;
-            --card-bg: #FFFFFF;
             --primary: #0A5C4D;
-            --primary-dark: #063C32;
-            --accent: #D4AF37; /* ذهبي فخم */
-            --text-main: #2D3748;
-            --text-muted: #718096;
-            --border-color: #E2E8F0;
-            --shadow: 0 10px 25px -5px rgba(10, 92, 77, 0.08), 0 8px 10px -6px rgba(10, 92, 77, 0.08);
-            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --accent: #276749;
+            --bg: #F8F9FA;
+            --text: #2D3748;
         }
-
-        body { 
-            font-family: 'Tajawal', sans-serif; 
-            background-color: var(--bg-color); 
-            color: var(--text-main); 
-            margin: 0; 
-            padding: 0; 
-        }
-
-        header {
-            background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%);
-            color: #FFFFFF;
-            text-align: center;
-            padding: 60px 20px;
-            position: relative;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.15);
-            border-bottom: 5px solid var(--accent);
-        }
-
-        header h1 {
-            font-family: 'El Messiri', sans-serif;
-            font-size: 2.8rem;
-            margin: 0 0 15px 0;
-            letter-spacing: -0.5px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-        }
-
-        header p {
-            font-size: 1.2rem;
-            color: #E2E8F0;
+        body {
+            font-family: 'Tajawal', sans-serif;
+            background: var(--bg);
+            color: var(--text);
             margin: 0;
-            font-weight: 500;
+            padding: 0;
         }
-
-        .container { 
-            max-width: 950px; 
-            margin: -30px auto 50px auto; 
-            padding: 0 20px; 
-            position: relative;
-            z-index: 10;
-        }
-
-        details.category-box {
-            background: var(--card-bg);
-            border: 1px solid var(--border-color);
-            border-radius: 16px;
-            margin-bottom: 25px;
-            box-shadow: var(--shadow);
-            overflow: hidden;
-            transition: var(--transition);
-        }
-
-        details.category-box[open] {
-            border-color: var(--primary);
-            box-shadow: 0 20px 30px -10px rgba(10, 92, 77, 0.15);
-        }
-
-        summary {
-            font-family: 'El Messiri', sans-serif;
-            color: var(--primary-dark);
-            font-size: 1.5rem;
-            padding: 25px 30px;
-            cursor: pointer;
-            list-style: none;
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 20px 40px;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            user-select: none;
-            background: var(--card-bg);
-            transition: var(--transition);
-        }
-
-        summary:hover {
-            background: #F0FDF4;
-            color: var(--primary);
-        }
-
-        summary::-webkit-details-marker {
-            display: none;
-        }
-
-        summary::after {
-            content: '+';
-            font-size: 1.6rem;
-            color: var(--accent);
-            font-weight: bold;
-            background: #F7FAFC;
-            width: 40px;
-            height: 40px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border-radius: 50%;
-            border: 1px solid var(--border-color);
-            transition: var(--transition);
-        }
-
-        details[open] summary::after {
-            content: '−';
-            background: var(--primary);
-            color: #FFFFFF;
-            border-color: var(--primary);
-            transform: rotate(180deg);
-        }
-
-        .category-content {
-            padding: 25px 30px 30px 30px;
-            background: #FAFCFC;
-            border-top: 1px solid var(--border-color);
-        }
-
-        .grades-grid { 
-            display: grid; 
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); 
-            gap: 20px; 
-        }
-
-        .grade-card { 
-            background: #FFFFFF; 
-            border: 1px solid var(--border-color); 
-            border-radius: 12px; 
-            padding: 22px; 
-            text-align: center;
-            text-decoration: none;
-            color: var(--text-main);
-            transition: var(--transition);
             position: relative;
-            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
         }
-
-        .grade-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            right: 0;
-            width: 4px;
-            height: 100%;
-            background: var(--accent);
-            opacity: 0;
-            transition: var(--transition);
-        }
-
-        .grade-card:hover { 
-            transform: translateY(-5px);
-            box-shadow: 0 12px 20px rgba(0,0,0,0.06);
-            border-color: var(--primary);
-            background: #FFFFFF;
-        }
-
-        .grade-card:hover::before {
-            opacity: 1;
-        }
-
-        .grade-card h3 { 
-            font-family: 'El Messiri', sans-serif; 
-            color: var(--primary); 
-            font-size: 1.25rem; 
-            margin: 0 0 8px 0; 
-        }
-
-        .grade-card p {
-            color: var(--text-muted);
-            font-size: 0.9rem;
+        h1 {
             margin: 0;
+            font-size: 1.8rem;
         }
-
-        footer {
-            text-align: center;
-            padding: 30px;
-            background: #2D3748;
-            color: #A0AEC0;
+        .auth-menu {
+            display: flex;
+            gap: 10px;
+            align-items: center;
+        }
+        .auth-btn {
+            color: white;
+            background: rgba(255, 255, 255, 0.15);
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
             font-size: 0.95rem;
-            border-top: 4px solid var(--accent);
+            transition: background 0.3s;
         }
-
-        @media (max-width: 768px) {
-            header h1 { font-size: 2.2rem; }
-            summary { font-size: 1.3rem; padding: 20px; }
-            .category-content { padding: 20px; }
+        .auth-btn:hover {
+            background: rgba(255, 255, 255, 0.25);
+        }
+        .dashboard-btn {
+            background: #2F855A;
+        }
+        .container {
+            max-width: 1000px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+        .welcome-card {
+            background: white;
+            padding: 40px;
+            border-radius: 15px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+        .welcome-card h2 {
+            color: var(--primary);
+            margin-top: 0;
+        }
+        .btn-main {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 12px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            margin-top: 20px;
+            font-weight: bold;
+        }
+        .btn-main:hover {
+            background: #063C32;
         }
     </style>
 </head>
 <body>
 
-<header>
-    <h1>منصة الإقبال التعليمية</h1>
-    <p>البوابة الاحترافية لتعلم اللغة العربية — إعداد الأستاذ عبد الرحمن الزعبي</p>
-</header>
-
-<div class="container">
-
-    <!-- الخانة الأولى: الصفوف الأساسية -->
-    <details class="category-box">
-        <summary>الصفوف الأساسية</summary>
-        <div class="category-content">
-            <div class="grades-grid">
-                <a href="grade4.html" class="grade-card">
-                    <h3>الصف الرابع</h3>
-                    <p>الوحدات والشروحات</p>
-                </a>
-                <a href="grade5.html" class="grade-card">
-                    <h3>الصف الخامس</h3>
-                    <p>الوحدات والشروحات</p>
-                </a>
-                <a href="grade6.html" class="grade-card">
-                    <h3>الصف السادس</h3>
-                    <p>الوحدات والشروحات</p>
-                </a>
-            </div>
+    <header>
+        <h1>منصة الإقبال التعليمية</h1>
+        <!-- زر تسجيل الدخول أو لوحة التحكم -->
+        <div class="auth-menu">
+            <a href="login.html" id="loginBtn" class="auth-btn">تسجيل الدخول</a>
+            <a href="dashboard.html" id="dashboardBtn" class="auth-btn dashboard-btn" style="display: none;">لوحة التحكم</a>
         </div>
-    </details>
+    </header>
 
-    <!-- الخانة الثانية: الصفوف الأساسية العليا -->
-    <details class="category-box">
-        <summary>الصفوف الأساسية العليا</summary>
-        <div class="category-content">
-            <div class="grades-grid">
-                <a href="grade7.html" class="grade-card">
-                    <h3>الصف السابع</h3>
-                    <p>الوحدات والشروحات</p>
-                </a>
-                <a href="grade8.html" class="grade-card">
-                    <h3>الصف الثامن</h3>
-                    <p>الوحدات والشروحات</p>
-                </a>
-                <a href="grade9.html" class="grade-card">
-                    <h3>الصف التاسع</h3>
-                    <p>الوحدات والشروحات</p>
-                </a>
-                <a href="grade10.html" class="grade-card">
-                    <h3>الصف العاشر</h3>
-                    <p>الوحدات والشروحات</p>
-                </a>
-            </div>
+    <div class="container">
+        <div class="welcome-card">
+            <h2>أهلاً بكم في منصة الإقبال التعليمية</h2>
+            <p>وجهتك الشاملة لدروس وملخصات وأوراق عمل اللغة العربية للمرحلة الثانوية والأساسية.</p>
+            <a href="dashboard.html" class="btn-main">استعرض لوحة التحكم والدروس</a>
         </div>
-    </details>
+    </div>
 
-    <!-- الخانة الثالثة: المرحلة الثانوية -->
-    <details class="category-box">
-        <summary>المرحلة الثانوية</summary>
-        <div class="category-content">
-            <div class="grades-grid">
-                <a href="grade11.html" class="grade-card">
-                    <h3>الأول الثانوي</h3>
-                    <p>المادة الدراسية</p>
-                </a>
-                <a href="tawjihi-literature.html" class="grade-card">
-                    <h3>كتاب الأدب (الثاني الثانوي)</h3>
-                    <p>التوجيهي</p>
-                </a>
-                <a href="tawjihi-grammar.html" class="grade-card">
-                    <h3>كتاب النحو والصرف وموسيقا الشعر (الثاني الثانوي)</h3>
-                    <p>التوجيهي</p>
-                </a>
-            </div>
-        </div>
-    </details>
-
-    <!-- الخانة الرابعة: الدرجة الجامعية الأولى -->
-    <details class="category-box">
-        <summary>الدرجة الجامعية الأولى (البكالوريوس)</summary>
-        <div class="category-content">
-            <div class="grades-grid">
-                <a href="university.html" class="grade-card">
-                    <h3>مساقات اللغة العربية</h3>
-                    <p>النحو، الصرف، البلاغة، والأدب</p>
-                </a>
-            </div>
-        </div>
-    </details>
-
-</div>
-
-<footer>
-    جميع الحقوق محفوظة © منصة الإقبال التعليمية 2026
-</footer>
+    <script>
+        // التحقق من حالة تسجيل الدخول لتغيير الزر تلقائياً
+        const currentUser = JSON.parse(localStorage.getItem('user'));
+        if (currentUser) {
+            const loginBtn = document.getElementById('loginBtn');
+            const dashBtn = document.getElementById('dashboardBtn');
+            
+            if(loginBtn) loginBtn.style.display = 'none';
+            if(dashBtn) {
+                dashBtn.style.display = 'inline-block';
+                dashBtn.innerText = "أهلاً، " + currentUser.name;
+            }
+        }
+    </script>
 
 </body>
 </html>
