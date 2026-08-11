@@ -1,5 +1,6 @@
 backend:
-  name: git-gateway
+  name: github
+  repo: alzobeia0-cpu/iqbal-arabic
   branch: main
 
 media_folder: "uploads"
