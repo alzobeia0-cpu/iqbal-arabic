@@ -1,4 +1,4 @@
-backend:
+locale:
   name: git-gateway
   branch: main
 
