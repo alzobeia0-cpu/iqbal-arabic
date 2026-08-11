@@ -46,10 +46,12 @@
 <script>
     function openMedia(url) { document.getElementById('mediaFrame').src = url; document.getElementById('mediaModal').style.display = 'flex'; }
     function closeModal() { document.getElementById('mediaModal').style.display = 'none'; document.getElementById('mediaFrame').src = ''; }
+    // الرابط المباشر للملف الموحد
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQc-GebJO-z5OgDXvQlLDBkdE1XFHvL_B2c6GG4hee8G1E5tYs_Vpybki7B_9Byz_lemrtCd1mvaGHd/pub?output=csv';
     Papa.parse(sheetUrl, { download: true, header: true, complete: function(results) {
         const container = document.getElementById('units-container'); container.innerHTML = '';
         let unitsMap = {};
+        // الفلترة حسب الصف 11
         results.data.forEach(row => { if(row.grade && row.grade.trim() == "11") { let u = row.unit ? row.unit.trim() : "أخرى"; if(!unitsMap[u]) unitsMap[u] = []; unitsMap[u].push(row); } });
         let found = false;
         for(let unit in unitsMap) {
