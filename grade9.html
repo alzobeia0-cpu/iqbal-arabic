@@ -13,18 +13,10 @@
         header h1 { font-family: 'El Messiri', sans-serif; font-size: 2.2rem; margin: 0 0 10px 0; }
         .back-link { position: absolute; top: 20px; right: 20px; color: #FFFFFF; background: rgba(255, 255, 255, 0.15); padding: 8px 15px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
         .back-link:hover { background: rgba(255, 255, 255, 0.25); }
-        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; }
-        details.unit-box { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; margin-bottom: 20px; box-shadow: var(--shadow); overflow: hidden; transition: var(--transition); }
-        details.unit-box[open] { border-color: var(--primary); box-shadow: 0 8px 25px rgba(10, 92, 77, 0.1); }
-        summary { font-family: 'El Messiri', sans-serif; color: var(--primary-dark); font-size: 1.35rem; padding: 22px 25px; cursor: pointer; list-style: none; display: flex; justify-content: space-between; align-items: center; user-select: none; background: var(--card-bg); transition: var(--transition); }
-        summary:hover { background: #F0FDF4; color: var(--primary); }
-        summary::-webkit-details-marker { display: none; }
-        summary::after { content: '+'; font-size: 1.4rem; color: var(--accent); font-weight: bold; background: #F7FAFC; width: 35px; height: 35px; display: flex; align-items: center; justify-content: center; border-radius: 50%; border: 1px solid var(--border-color); transition: var(--transition); }
-        details[open] summary::after { content: '−'; background: var(--primary); color: #FFFFFF; border-color: var(--primary); transform: rotate(180deg); }
-        .unit-content { padding: 20px 25px; background: #FAFCFC; border-top: 1px solid var(--border-color); display: flex; flex-direction: column; gap: 15px; }
-        .lesson-item { background: #FFFFFF; border: 1px solid var(--border-color); border-radius: 10px; padding: 18px; transition: var(--transition); }
-        .lesson-item:hover { border-color: var(--primary); box-shadow: 0 4px 12px rgba(0,0,0,0.03); }
-        .lesson-title { font-family: 'El Messiri', sans-serif; color: var(--primary); font-size: 1.1rem; margin: 0 0 12px 0; }
+        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
+        .lesson-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px 25px; box-shadow: var(--shadow); transition: var(--transition); }
+        .lesson-item:hover { border-color: var(--primary); box-shadow: 0 8px 25px rgba(10, 92, 77, 0.1); transform: translateY(-2px); }
+        .lesson-title { font-family: 'El Messiri', sans-serif; color: var(--primary-dark); font-size: 1.25rem; margin: 0 0 15px 0; }
         .links-row { display: flex; gap: 10px; flex-wrap: wrap; }
         .action-btn { background: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: 500; font-size: 0.85rem; transition: var(--transition); display: inline-flex; align-items: center; gap: 5px; }
         .action-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
@@ -38,31 +30,45 @@
 <body>
 <header>
     <a href="index.html" class="back-link">← الرئيسية</a>
-    <h1>مادة اللغة العربية — الصف التاسع</h1>
-    <p>اختر الوحدة الدراسية لاستعراض الدروس والشروحات</p>
+    <h1>الصف التاسع</h1>
+    <p>المناهج والمواد الدراسية</p>
 </header>
-<div class="container"><div id="units-container"><div class="loading">جاري تحميل المحتوى...</div></div></div>
+<div class="container" id="lessons-container">
+    <div class="loading">جاري تحميل الدروس...</div>
+</div>
 <div id="mediaModal"><div class="modal-content"><button class="close-btn" onclick="closeModal()">✕</button><iframe id="mediaFrame" src="" width="100%" height="100%" frameborder="0" allowfullscreen></iframe></div></div>
 <script>
     function openMedia(url) { document.getElementById('mediaFrame').src = url; document.getElementById('mediaModal').style.display = 'flex'; }
     function closeModal() { document.getElementById('mediaModal').style.display = 'none'; document.getElementById('mediaFrame').src = ''; }
+    
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQc-GebJO-z5OgDXvQlLDBkdE1XFHvL_B2c6GG4hee8G1E5tYs_Vpybki7B_9Byz_lemrtCd1mvaGHd/pub?output=csv';
+    
     Papa.parse(sheetUrl, { download: true, header: true, complete: function(results) {
-        const container = document.getElementById('units-container'); container.innerHTML = '';
-        let unitsMap = {};
-        results.data.forEach(row => { if(row.grade && row.grade.trim() == "9") { let u = row.unit ? row.unit.trim() : "أخرى"; if(!unitsMap[u]) unitsMap[u] = []; unitsMap[u].push(row); } });
+        const container = document.getElementById('lessons-container');
+        container.innerHTML = '';
         let found = false;
-        for(let unit in unitsMap) {
-            found = true; let lessonsHtml = '';
-            unitsMap[unit].forEach(row => {
+        
+        results.data.forEach(row => {
+            // هنا نفلتر الصفوف التي تحمل الرمز "9"
+            if(row.grade && row.grade.trim() == "9") {
+                found = true;
                 let v = (row.video && row.video.trim() !== "") ? `<button onclick="openMedia('${row.video.trim()}')" class="action-btn">▶ الشرح</button>` : '';
                 let p = (row.pdf && row.pdf.trim() !== "") ? `<button onclick="openMedia('${row.pdf.trim()}')" class="action-btn">📄 الكتاب</button>` : '';
-                let q = (row.quiz && row.quiz.trim() !== "") ? `<button onclick="openMedia('${row.quiz.trim()}')" class="action-btn">📝 الاختبار</button>` : '';
-                lessonsHtml += `<div class="lesson-item"><h4 class="lesson-title">${row.title || ''}</h4><div class="links-row">${v}${p}${q}</div></div>`;
-            });
-            container.innerHTML += `<details class="unit-box"><summary>الوحدة ${unit}</summary><div class="unit-content">${lessonsHtml}</div></details>`;
+                let w = (row.worksheets && row.worksheets.trim() !== "") ? `<button onclick="openMedia('${row.worksheets.trim()}')" class="action-btn" style="background: var(--accent); color: var(--primary-dark); font-weight: 700;">📝 أوراق عمل</button>` : '';
+                let q = (row.quiz && row.quiz.trim() !== "") ? `<button onclick="openMedia('${row.quiz.trim()}')" class="action-btn">🧪 اختبار</button>` : '';
+                
+                container.innerHTML += `
+                    <div class="lesson-item">
+                        <h3 class="lesson-title">${row.title || 'درس بدون عنوان'}</h3>
+                        <div class="links-row">${v}${p}${w}${q}</div>
+                    </div>
+                `;
+            }
+        });
+        
+        if(!found) {
+            container.innerHTML = '<div class="loading">لا توجد دروس مضافة لهذا الصف حالياً.</div>';
         }
-        if(!found) container.innerHTML = '<div class="loading">لا توجد دروس مضافة لهذا الصف حالياً.</div>';
     }});
 </script>
 </body>
