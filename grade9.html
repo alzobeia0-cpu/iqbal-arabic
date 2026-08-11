@@ -3,73 +3,108 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف التاسع — منصة الإقبال التعليمية</title>
+    <title>الصف التاسع الأساسي — منصة الإقبال التعليمية</title>
     <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
-        :root { --bg-color: #F8F9FA; --card-bg: #FFFFFF; --primary: #0A5C4D; --primary-dark: #063C32; --accent: #D4AF37; --text-main: #2D3748; --text-muted: #718096; --border-color: #E2E8F0; --shadow: 0 4px 15px rgba(10, 92, 77, 0.05); --transition: all 0.3s ease; }
+        :root { --bg-color: #F8F9FA; --card-bg: #FFFFFF; --primary: #0A5C4D; --primary-dark: #063C32; --accent: #D4AF37; --text-main: #2D3748; --border-color: #E2E8F0; --shadow: 0 10px 25px -5px rgba(10, 92, 77, 0.08); }
         body { font-family: 'Tajawal', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; }
-        header { background: linear-gradient(135deg, var(--primary-dark) 0%, var(--primary) 100%); color: #FFFFFF; text-align: center; padding: 40px 20px; border-bottom: 4px solid var(--accent); position: relative; }
+        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: #FFFFFF; text-align: center; padding: 40px 20px; border-bottom: 5px solid var(--accent); position: relative; }
         header h1 { font-family: 'El Messiri', sans-serif; font-size: 2.2rem; margin: 0 0 10px 0; }
-        .back-link { position: absolute; top: 20px; right: 20px; color: #FFFFFF; background: rgba(255, 255, 255, 0.15); padding: 8px 15px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; transition: var(--transition); }
-        .back-link:hover { background: rgba(255, 255, 255, 0.25); }
-        .container { max-width: 850px; margin: 40px auto; padding: 0 20px; display: flex; flex-direction: column; gap: 15px; }
-        .lesson-item { background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 12px; padding: 20px 25px; box-shadow: var(--shadow); transition: var(--transition); }
-        .lesson-item:hover { border-color: var(--primary); box-shadow: 0 8px 25px rgba(10, 92, 77, 0.1); transform: translateY(-2px); }
-        .lesson-title { font-family: 'El Messiri', sans-serif; color: var(--primary-dark); font-size: 1.25rem; margin: 0 0 15px 0; }
-        .links-row { display: flex; gap: 10px; flex-wrap: wrap; }
-        .action-btn { background: var(--primary); color: white; padding: 8px 16px; border-radius: 6px; border: none; cursor: pointer; font-family: 'Tajawal', sans-serif; font-weight: 500; font-size: 0.85rem; transition: var(--transition); display: inline-flex; align-items: center; gap: 5px; }
-        .action-btn:hover { background: var(--primary-dark); transform: translateY(-2px); }
-        .loading { text-align: center; font-size: 1.2rem; color: var(--text-muted); padding: 50px; }
-        #mediaModal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.8); z-index: 1000; justify-content: center; align-items: center; }
-        .modal-content { background: white; width: 90%; max-width: 900px; height: 80%; border-radius: 16px; position: relative; overflow: hidden; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25); }
-        .close-btn { position: absolute; top: 15px; left: 15px; background: #E53E3E; color: white; border: none; width: 35px; height: 35px; border-radius: 50%; cursor: pointer; font-weight: bold; font-size: 1rem; display: flex; align-items: center; justify-content: center; z-index: 10; transition: var(--transition); }
-        .close-btn:hover { background: #C53030; }
+        .back-link { position: absolute; top: 20px; right: 20px; color: #FFFFFF; background: rgba(255, 255, 255, 0.15); padding: 8px 15px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; }
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .unit-section { margin-bottom: 20px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
+        .unit-header { background: var(--primary); color: white; padding: 18px 25px; font-family: 'El Messiri', sans-serif; font-size: 1.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
+        .unit-header:hover { background: var(--primary-dark); }
+        .unit-header::after { content: '▼'; font-size: 1rem; transition: transform 0.3s ease; }
+        .unit-section.active .unit-header::after { transform: rotate(180deg); }
+        .unit-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #FFF; }
+        .unit-section.active .unit-content { max-height: 3000px; transition: max-height 0.6s ease-in; }
+        .lesson-card { padding: 20px 25px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
+        .lesson-card:last-child { border-bottom: none; }
+        .lesson-title { font-weight: 700; font-size: 1.1rem; color: var(--primary-dark); flex: 1; min-width: 200px; }
+        .lesson-links { display: flex; gap: 10px; flex-wrap: wrap; }
+        .btn-link { padding: 8px 14px; border-radius: 6px; font-size: 0.9rem; text-decoration: none; font-weight: 500; }
+        .btn-video { background: #EBF8FF; color: #2B6CB0; border: 1px solid #BEE3F8; }
+        .btn-pdf { background: #FFF5F5; color: #C53030; border: 1px solid #FED7D7; }
+        .btn-worksheets { background: #FEFCBF; color: #744210; border: 1px solid #FAF089; }
+        .btn-quiz { background: #F0FFF4; color: #22543D; border: 1px solid #C6F6D5; }
+        .loading { text-align: center; padding: 40px; font-size: 1.2rem; color: var(--primary); }
     </style>
 </head>
 <body>
+
 <header>
     <a href="index.html" class="back-link">← الرئيسية</a>
-    <h1>الصف التاسع</h1>
-    <p>المناهج والمواد الدراسية</p>
+    <h1>الصف التاسع الأساسي</h1>
+    <p>اختر الوحدة الدراسية لعرض الدروس والمطالعة</p>
 </header>
-<div class="container" id="lessons-container">
-    <div class="loading">جاري تحميل الدروس...</div>
+
+<div class="container" id="unitsContainer">
+    <div class="loading">جاري جلب الوحدات والدروس من جدول البيانات...</div>
 </div>
-<div id="mediaModal"><div class="modal-content"><button class="close-btn" onclick="closeModal()">✕</button><iframe id="mediaFrame" src="" width="100%" height="100%" frameborder="0" allowfullscreen></iframe></div></div>
+
 <script>
-    function openMedia(url) { document.getElementById('mediaFrame').src = url; document.getElementById('mediaModal').style.display = 'flex'; }
-    function closeModal() { document.getElementById('mediaModal').style.display = 'none'; document.getElementById('mediaFrame').src = ''; }
-    
-    const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQc-GebJO-z5OgDXvQlLDBkdE1XFHvL_B2c6GG4hee8G1E5tYs_Vpybki7B_9Byz_lemrtCd1mvaGHd/pub?output=csv';
-    
-    Papa.parse(sheetUrl, { download: true, header: true, complete: function(results) {
-        const container = document.getElementById('lessons-container');
-        container.innerHTML = '';
-        let found = false;
-        
-        results.data.forEach(row => {
-            // هنا نفلتر الصفوف التي تحمل الرمز "9"
-            if(row.grade && row.grade.trim() == "9") {
-                found = true;
-                let v = (row.video && row.video.trim() !== "") ? `<button onclick="openMedia('${row.video.trim()}')" class="action-btn">▶ الشرح</button>` : '';
-                let p = (row.pdf && row.pdf.trim() !== "") ? `<button onclick="openMedia('${row.pdf.trim()}')" class="action-btn">📄 الكتاب</button>` : '';
-                let w = (row.worksheets && row.worksheets.trim() !== "") ? `<button onclick="openMedia('${row.worksheets.trim()}')" class="action-btn" style="background: var(--accent); color: var(--primary-dark); font-weight: 700;">📝 أوراق عمل</button>` : '';
-                let q = (row.quiz && row.quiz.trim() !== "") ? `<button onclick="openMedia('${row.quiz.trim()}')" class="action-btn">🧪 اختبار</button>` : '';
-                
-                container.innerHTML += `
-                    <div class="lesson-item">
-                        <h3 class="lesson-title">${row.title || 'درس بدون عنوان'}</h3>
-                        <div class="links-row">${v}${p}${w}${q}</div>
-                    </div>
-                `;
+    // رابط السيرفر
+    const scriptURL = 'https://script.google.com/macros/s/AKfycbydMYd8FjYMAxgxjnpr7uqBUFQ8LLhS7XV6SGqCEG-b4FWYxWVwrmSMeirIWOuBquLH/exec';
+
+    // تحديد الصف التاسع
+    const targetGrade = "9"; 
+
+    async function loadLessons() {
+        const container = document.getElementById('unitsContainer');
+        try {
+            const response = await fetch(scriptURL);
+            const data = await response.json();
+            
+            const gradeData = data.filter(item => {
+                const g = String(item.grade).trim();
+                return g === targetGrade || g.includes(targetGrade);
+            });
+
+            if (gradeData.length === 0) {
+                container.innerHTML = '<div class="loading">لا توجد دروس مضافة لهذا الصف في الجدول حالياً.</div>';
+                return;
             }
-        });
-        
-        if(!found) {
-            container.innerHTML = '<div class="loading">لا توجد دروس مضافة لهذا الصف حالياً.</div>';
+
+            container.innerHTML = '';
+            const grouped = {};
+            gradeData.forEach(item => {
+                if (!grouped[item.unit]) grouped[item.unit] = [];
+                grouped[item.unit].push(item);
+            });
+
+            for (const [unitName, lessons] of Object.entries(grouped)) {
+                const section = document.createElement('div');
+                section.className = 'unit-section';
+
+                let lessonsHTML = '';
+                lessons.forEach(l => {
+                    lessonsHTML += `
+                        <div class="lesson-card">
+                            <div class="lesson-title">${l.title}</div>
+                            <div class="lesson-links">
+                                ${l.video && l.video !== '#' ? `<a href="${l.video}" target="_blank" class="btn-link btn-video">شرح الفيديو</a>` : ''}
+                                ${l.pdf && l.pdf !== '#' ? `<a href="${l.pdf}" target="_blank" class="btn-link btn-pdf">الكتاب / PDF</a>` : ''}
+                                ${l.worksheets && l.worksheets !== '#' ? `<a href="${l.worksheets}" target="_blank" class="btn-link btn-worksheets">أوراق العمل</a>` : ''}
+                                ${l.quiz && l.quiz !== '#' ? `<a href="${l.quiz}" target="_blank" class="btn-link btn-quiz">الاختبار</a>` : ''}
+                            </div>
+                        </div>
+                    `;
+                });
+
+                section.innerHTML = `
+                    <div class="unit-header" onclick="this.parentElement.classList.toggle('active')">${unitName}</div>
+                    <div class="unit-content">${lessonsHTML}</div>
+                `;
+                container.appendChild(section);
+            }
+        } catch (error) {
+            container.innerHTML = '<div class="loading" style="color: #C53030;">حدث خطأ في الاتصال بالسيرفر، تأكد من صحة الرابط وصلاحيات النشر.</div>';
         }
-    }});
+    }
+
+    loadLessons();
 </script>
+
 </body>
 </html>
