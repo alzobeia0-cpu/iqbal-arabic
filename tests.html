@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاختبارات - منصة الإقبال في اللغة العربية</title>
+    <style>
+        :root {
+            --primary-color: #1e3a8a;
+            --secondary-color: #0d9488;
+            --accent-color: #f59e0b;
+            --bg-color: #f8fafc;
+            --text-color: #334155;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+        header {
+            background: #ffffff;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 2rem;
+            flex-wrap: wrap;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary-color);
+        }
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-weight: 600;
+            transition: color 0.3s;
+        }
+        .nav-links a:hover {
+            color: var(--secondary-color);
+        }
+        .page-header {
+            background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+            color: #ffffff;
+            text-align: center;
+            padding: 3rem 2rem;
+        }
+        .container {
+            max-width: 1100px;
+            margin: 3rem auto;
+            padding: 0 2rem;
+        }
+        .section-title {
+            color: var(--primary-color);
+            font-size: 1.5rem;
+            margin: 2rem 0 1rem;
+            border-bottom: 3px solid var(--secondary-color);
+            padding-bottom: 0.5rem;
+        }
+        .test-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+        }
+        .test-card {
+            background: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+        .test-card h4 {
+            color: var(--text-color);
+            font-size: 1.1rem;
+        }
+        .test-card p {
+            color: #64748b;
+            font-size: 0.9rem;
+            flex-grow: 1;
+        }
+        .test-btn {
+            display: inline-block;
+            background: var(--accent-color);
+            color: #ffffff;
+            text-decoration: none;
+            text-align: center;
+            padding: 0.6rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            transition: opacity 0.3s;
+        }
+        .test-btn:hover {
+            opacity: 0.85;
+        }
+        .empty-msg {
+            text-align: center;
+            color: #64748b;
+            padding: 2rem;
+        }
+        footer {
+            background: #0f172a;
+            color: #ffffff;
+            text-align: center;
+            padding: 2rem;
+            margin-top: 4rem;
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="nav-container">
+            <div class="logo">منصة الإقبال</div>
+            <ul class="nav-links">
+                <li><a href="index.html">الرئيسية</a></li>
+                <li><a href="files.html">الملازم والملفات</a></li>
+                <li><a href="videos.html">الشرح المرئي</a></li>
+                <li><a href="tests.html">الاختبارات</a></li>
+                <li><a href="https://wa.me/962782290871" target="_blank">تواصل معنا</a></li>
+            </ul>
+        </div>
+    </header>
+
+    <section class="page-header">
+        <h1>الاختبارات</h1>
+    </section>
+
+    <div class="container" id="content">
+        <p class="empty-msg">جاري التحميل...</p>
+    </div>
+
+    <footer>
+        <p>جميع حقوق الطبع والنشر محفوظة © منصة الإقبال في اللغة العربية 2026</p>
+    </footer>
+
+    <script>
+        fetch('data/tests.json')
+            .then(res => res.json())
+            .then(data => {
+                const container = document.getElementById('content');
+                container.innerHTML = '';
+                if (!data.sections || data.sections.length === 0) {
+                    container.innerHTML = '<p class="empty-msg">لا توجد اختبارات مضافة بعد.</p>';
+                    return;
+                }
+                data.sections.forEach(section => {
+                    const h2 = document.createElement('h2');
+                    h2.className = 'section-title';
+                    h2.textContent = section.title;
+                    container.appendChild(h2);
+
+                    const grid = document.createElement('div');
+                    grid.className = 'test-grid';
+
+                    (section.items || []).forEach(item => {
+                        const card = document.createElement('div');
+                        card.className = 'test-card';
+                        card.innerHTML = `
+                            <h4>${item.name}</h4>
+                            <p>${item.description || ''}</p>
+                            <a class="test-btn" href="${item.link}" target="_blank" rel="noopener">ابدأ الاختبار</a>
+                        `;
+                        grid.appendChild(card);
+                    });
+                    container.appendChild(grid);
+                });
+            })
+            .catch(() => {
+                document.getElementById('content').innerHTML = '<p class="empty-msg">تعذّر تحميل الاختبارات حاليًا.</p>';
+            });
+    </script>
+
+</body>
+</html>
