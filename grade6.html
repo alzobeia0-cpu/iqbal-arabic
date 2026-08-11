@@ -2,90 +2,68 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>الصف السادس — منصة الإقبال</title>
-    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@700&family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script>
     <style>
-        :root {
-            --ink:#1C2B2F;
-            --paper:#FBF8F2;
-            --teal:#0F5C52;
-            --teal-deep:#0A3F38;
-            --teal-light:#DCEEE8;
-            --copper:#B5572E;
-            --line:#E3DCC9;
-            --white:#FFFFFF;
-        }
-        body { font-family: 'Tajawal', sans-serif; background: var(--paper); color: var(--ink); margin: 0; padding: 20px; }
-        .container { max-width: 900px; margin: 0 auto; }
-        .header-box { text-align: center; margin-bottom: 30px; }
-        .header-box h1 { font-family: 'El Messiri', sans-serif; color: var(--teal-deep); font-size: 2rem; }
-        .back-link { display: inline-block; margin-bottom: 20px; color: var(--copper); text-decoration: none; font-weight: bold; }
+        body { font-family: 'Tajawal', sans-serif; background: #FBF8F2; margin: 0; padding: 20px; }
+        .container { max-width: 800px; margin: auto; }
+        .unit-card { background: white; border-radius: 15px; padding: 20px; margin-bottom: 15px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); }
+        .action-btn { background: #0F5C52; color: white; padding: 10px 20px; border-radius: 8px; border: none; cursor: pointer; font-weight: bold; margin-left: 5px; }
         
-        .unit-card { 
-            background: var(--white); 
-            border: 1px solid var(--line); 
-            border-radius: 12px; 
-            padding: 25px; 
-            margin-bottom: 20px; 
-            box-shadow: 0 4px 10px rgba(0,0,0,0.03); 
-        }
-        .unit-card h3 { font-family: 'El Messiri', sans-serif; color: var(--teal); margin-top: 0; }
-        .links-row { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 15px; }
-        .action-btn { background: var(--teal); color: white; padding: 8px 16px; border-radius: 6px; text-decoration: none; font-size: 0.9rem; font-weight: bold; }
-        .action-btn:hover { background: var(--teal-deep); }
-        .loading { text-align: center; font-size: 1.1rem; color: #5A6B68; padding: 40px; }
+        /* تصميم النافذة المنبثقة */
+        #mediaModal { display:none; position:fixed; top:0; left:0; width:100%; height:100%; background:rgba(0,0,0,0.8); z-index:1000; justify-content:center; align-items:center; }
+        .modal-content { background:white; width:90%; max-width:800px; height:70%; border-radius:15px; position:relative; }
+        .close-btn { position:absolute; top:-40px; right:0; color:white; cursor:pointer; font-size:25px; }
     </style>
 </head>
 <body>
 
 <div class="container">
-    <a href="index.html" class="back-link">← العودة للرئيسية</a>
-    
-    <div class="header-box">
-        <h1>مادة اللغة العربية — الصف السادس</h1>
-        <p>يتم جلب المحتوى الخاص بالصف السادس فقط من لوحة التحكم.</p>
-    </div>
+    <a href="index.html">← العودة للرئيسية</a>
+    <h1>مادة الصف السادس</h1>
+    <div id="units-container">جاري التحميل...</div>
+</div>
 
-    <div id="units-container">
-        <div class="loading">جاري تحميل المحتوى...</div>
+<!-- النافذة المنبثقة -->
+<div id="mediaModal">
+    <div class="modal-content">
+        <span class="close-btn" onclick="closeModal()">✕ إغلاق</span>
+        <iframe id="mediaFrame" src="" width="100%" height="100%" frameborder="0"></iframe>
     </div>
 </div>
 
 <script>
+    function openMedia(url) {
+        document.getElementById('mediaFrame').src = url;
+        document.getElementById('mediaModal').style.display = 'flex';
+    }
+    function closeModal() {
+        document.getElementById('mediaModal').style.display = 'none';
+        document.getElementById('mediaFrame').src = '';
+    }
+
     const sheetUrl = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQc-GebJO-z5OgDXvQlLDBkdE1XFHvL_B2c6GG4hee8G1E5tYs_Vpybki7B_9Byz_lemrtCd1mvaGHd/pub?output=csv';
 
     Papa.parse(sheetUrl, {
-        download: true,
-        header: true,
+        download: true, header: true,
         complete: function(results) {
             const container = document.getElementById('units-container');
             container.innerHTML = '';
-            
-            let found = false;
             results.data.forEach(row => {
                 if(row.grade && row.grade.trim() == "6") {
-                    found = true;
                     container.innerHTML += `
                         <div class="unit-card">
-                            <h3>الوحدة ${row.unit || ''}: ${row.title || ''}</h3>
-                            <div class="links-row">
-                                ${row.video ? `<a href="${row.video}" class="action-btn" target="_blank">الشرح المرئي</a>` : ''}
-                                ${row.pdf ? `<a href="${row.pdf}" class="action-btn" target="_blank">الشرح الكتابي (PDF)</a>` : ''}
-                                ${row.quiz ? `<a href="${row.quiz}" class="action-btn" target="_blank">الاختبار التفاعلي</a>` : ''}
-                            </div>
+                            <h3>${row.unit}: ${row.title}</h3>
+                            <button onclick="openMedia('${row.video}')" class="action-btn">الشرح</button>
+                            <button onclick="openMedia('${row.pdf}')" class="action-btn">الكتاب</button>
+                            <button onclick="openMedia('${row.quiz}')" class="action-btn">الاختبار</button>
                         </div>
                     `;
                 }
             });
-
-            if(!found) {
-                container.innerHTML = '<p style="text-align:center;">لا توجد دروس مضافة للصف السادس حالياً في لوحة التحكم.</p>';
-            }
         }
     });
 </script>
-
 </body>
 </html>
