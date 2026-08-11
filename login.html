@@ -6,73 +6,16 @@
     <title>تسجيل الدخول - منصة الإقبال التعليمية</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary: #0A5C4D;
-            --bg: #F8F9FA;
-            --text: #2D3748;
-        }
-        body {
-            font-family: 'Tajawal', sans-serif;
-            background: var(--bg);
-            color: var(--text);
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .login-card {
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
-            width: 100%;
-            max-width: 400px;
-            box-sizing: border-box;
-        }
-        h2 {
-            color: var(--primary);
-            text-align: center;
-            margin-bottom: 25px;
-        }
-        .form-group {
-            margin-bottom: 20px;
-        }
-        label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: bold;
-            font-size: 0.9rem;
-        }
-        input {
-            width: 100%;
-            padding: 12px;
-            border: 1px solid #CBD5E0;
-            border-radius: 8px;
-            box-sizing: border-box;
-            font-family: 'Tajawal', sans-serif;
-        }
-        button {
-            width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-size: 1rem;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-        button:hover {
-            background: #063C32;
-        }
-        .msg {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 0.9rem;
-            color: #E53E3E;
-        }
+        :root { --primary: #0A5C4D; --bg: #F8F9FA; --text: #2D3748; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; box-sizing: border-box; }
+        h2 { color: var(--primary); text-align: center; margin-bottom: 25px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9rem; }
+        input { width: 100%; padding: 12px; border: 1px solid #CBD5E0; border-radius: 8px; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
+        button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.3s; }
+        button:hover { background: #063C32; }
+        .msg { text-align: center; margin-top: 15px; font-size: 0.9rem; color: #E53E3E; }
     </style>
 </head>
 <body>
@@ -105,12 +48,11 @@
             errorMsg.textContent = "جاري التحقق وتسجيل الدخول...";
             submitBtn.disabled = true;
 
-            const data = new URLSearchParams(new FormData(form));
+            const email = encodeURIComponent(form.email.value.trim());
+            const password = encodeURIComponent(form.password.value.trim());
+            const url = `${scriptURL}?email=${email}&password=${password}`;
 
-            fetch(scriptURL, { 
-                method: 'POST', 
-                body: data 
-            })
+            fetch(url, { method: 'GET' })
             .then(response => response.json())
             .then(result => {
                 if (result.status === "success") {
