@@ -49,17 +49,17 @@
         let found = false;
         
         results.data.forEach(row => {
-            // تصفية الصفوف التي تحمل الرمز 12ن الخاص بكتاب النحو والصرف وموسيقا الشعر
             if(row.grade && row.grade.trim() == "12ن") {
                 found = true;
                 let v = (row.video && row.video.trim() !== "") ? `<button onclick="openMedia('${row.video.trim()}')" class="action-btn">▶ الشرح</button>` : '';
-                let p = (row.pdf && row.pdf.trim() !== "") ? `<button onclick="openMedia('${row.pdf.trim()}')" class="action-btn">📄 ورقة العمل / المادة</button>` : '';
-                let q = (row.quiz && row.quiz.trim() !== "") ? `<button onclick="openMedia('${row.quiz.trim()}')" class="action-btn">📝 الاختبار</button>` : '';
+                let p = (row.pdf && row.pdf.trim() !== "") ? `<button onclick="openMedia('${row.pdf.trim()}')" class="action-btn">📄 الكتاب</button>` : '';
+                let w = (row.worksheets && row.worksheets.trim() !== "") ? `<button onclick="openMedia('${row.worksheets.trim()}')" class="action-btn" style="background: var(--accent); color: var(--primary-dark); font-weight: 700;">📝 أوراق عمل</button>` : '';
+                let q = (row.quiz && row.quiz.trim() !== "") ? `<button onclick="openMedia('${row.quiz.trim()}')" class="action-btn">🧪 اختبار</button>` : '';
                 
                 container.innerHTML += `
                     <div class="lesson-item">
                         <h3 class="lesson-title">${row.title || 'درس بدون عنوان'}</h3>
-                        <div class="links-row">${v}${p}${q}</div>
+                        <div class="links-row">${v}${p}${w}${q}</div>
                     </div>
                 `;
             }
