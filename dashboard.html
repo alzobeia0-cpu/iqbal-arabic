@@ -23,40 +23,34 @@
     <h1 id="welcomeText">أهلاً بك</h1>
     <p>دورك الحالي في النظام: <strong id="userRoleText"></strong></p>
 
-    <!-- قسم المسؤول الأعلى (Super Admin) -->
     <div id="superAdminSection" class="card hidden">
         <h3>لوحة تحكم المسؤول الأعلى</h3>
-        <p>بصفتك المسؤول الأعلى، يمكنك إضافة مسؤولين جدد وإدارة النظام بالكامل.</p>
-        <button class="btn" onclick="alert('خاصية إضافة مسؤول ستكون هنا')">إضافة مسؤول جديد</button>
+        <p>بصفتك المسؤول الأعلى، يمكنك إضافة مسؤولين جدد عبر جدول الحسابات مباشرة.</p>
+        <a href="https://docs.google.com/spreadsheets/d/1uHcwuDM14Q5SoQFzNuhYfWv2MWzAINH07Y1GKHjZVyc/edit" target="_blank" class="btn">فتح جدول الحسابات لإضافة مسؤول</a>
     </div>
 
-    <!-- قسم المسؤول العادي (Admin) -->
     <div id="adminSection" class="card hidden">
         <h3>لوحة تحكم المعلم / المسؤول</h3>
-        <p>يمكنك من هنا إضافة أو تعديل محتوى الدروس والروابط للصفوف الدراسية.</p>
-        <button class="btn" onclick="alert('خاصية إدارة الدروس ستكون هنا')">إدارة محتوى الدروس</button>
+        <p>يمكنك من هنا إضافة أو تعديل محتوى الدروس والفيديوهات والاختبارات للصفوف الدراسية.</p>
+        <a href="admin/index.html" class="btn">إدارة محتوى الدروس</a>
     </div>
 
-    <!-- قسم الطالب (Student) -->
-    <div id="studentSection" class="card">
-        <h3>بوابة الطالب</h3>
-        <p>مرحباً بك في منصة الإقبال التعليمية. يمكنك الانتقال إلى صفوفك الدراسية ومتابعة دروسك واختبارك.</p>
-        <a href="index.html" class="btn">الذهاب إلى الرئيسية والدروس</a>
+    <div class="card">
+        <h3>معاينة الموقع</h3>
+        <p>شوف الموقع كما يظهر للطالب.</p>
+        <a href="index.html" class="btn">فتح صفحة الدروس</a>
     </div>
 </div>
 
 <script>
-    // جلب بيانات المستخدم من المتصفح
     const userData = JSON.parse(localStorage.getItem('user'));
 
-    if (!userData) {
-        // إذا لم يكن مسجلاً، أعده لصفحة الدخول
+    if (!userData || userData.role === 'student') {
         window.location.href = 'login.html';
     } else {
         document.getElementById('welcomeText').innerText = "أهلاً بك، " + userData.name;
         document.getElementById('userRoleText').innerText = userData.role;
 
-        // إظهار وإخفاء الأقسام بناءً على الرول (Role)
         if (userData.role === 'superadmin') {
             document.getElementById('superAdminSection').classList.remove('hidden');
             document.getElementById('adminSection').classList.remove('hidden');
