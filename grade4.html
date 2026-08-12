@@ -188,11 +188,10 @@
 </div>
 
 <div class="container" id="unitsContainer">
-    <div class="loading-text">جاري تحميل الدروس من قاعدة البيانات... ⏳</div>
+    <div class="loading-text">جاري تحميل دروس الصف الرابع... ⏳</div>
 </div>
 
 <script>
-    // رابط النشر المباشر بصيغة CSV المستخرج من رابط pubhtml الخاص بك
     const sheetCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQc-GebJO-z5OgDXvQlLDBkdE1XFHvL_B2c6GG4hee8G1E5tYs_Vpybki7B_9Byz_lemrtCd1mvaGHd/pub?output=csv";
 
     async function fetchSheetData() {
@@ -201,16 +200,17 @@
             const csvData = await response.text();
             const rows = parseCSV(csvData);
             
-            // استبعاد الصف الأول إذا كان يحتوي على عناوين الأوردة
-            const dataRows = rows.slice(1);
-            
+            const dataRows = rows.slice(1); // استبعاد الهيدر
             const unitsMap = {};
-            dataRows.forEach(row => {
-                const unitName = row[0]?.trim();
-                const lessonTitle = row[1]?.trim();
-                const lessonUrl = row[2]?.trim();
 
-                if (unitName && lessonTitle) {
+            dataRows.forEach(row => {
+                const gradeCode = row[0]?.trim();   // العمود (A): رمز الصف (4)
+                const unitName = row[1]?.trim();    // العمود (B): اسم الوحدة
+                const lessonTitle = row[2]?.trim(); // العمود (C): عنوان الدرس
+                const lessonUrl = row[3]?.trim();   // العمود (D): الرابط
+
+                // تصفية البيانات المخصصة للصف الرابع (رقم 4) فقط
+                if (gradeCode === "4" && unitName && lessonTitle) {
                     if (!unitsMap[unitName]) unitsMap[unitName] = [];
                     unitsMap[unitName].push({ title: lessonTitle, url: lessonUrl });
                 }
@@ -221,7 +221,7 @@
             console.error("خطأ في جلب البيانات:", error);
             document.getElementById('unitsContainer').innerHTML = `
                 <div class="loading-text" style="color:#ef4444;">
-                    عذرًا، تعذر تحميل البيانات. يرجى إعادة المحاولة لاحقاً.
+                    عذرًا، تعذر تحميل البيانات. يرجى التأكد من الاتصال بالشبكة.
                 </div>`;
         }
     }
@@ -235,7 +235,7 @@
         container.innerHTML = '';
 
         if (Object.keys(unitsMap).length === 0) {
-            container.innerHTML = '<div class="loading-text">لا توجد دروس حاليًا في شيت جوجل.</div>';
+            container.innerHTML = '<div class="loading-text">لا توجد دروس حاليًا مسجلة للرمز (4).</div>';
             return;
         }
 
