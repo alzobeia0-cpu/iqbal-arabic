@@ -107,15 +107,20 @@
             cursor: pointer;
             list-style: none;
             display: flex;
-            justify-content: space-between;
+            justify-content: center;
             align-items: center;
+            position: relative;
             transition: background 0.2s ease;
         }
 
         .unit-summary::-webkit-details-marker { display: none; }
+        
+        /* جعل السهم في أقصى اليسار والعنوان في المنتصف */
         .unit-summary::before {
             content: "▼";
             font-size: 13px;
+            position: absolute;
+            left: 24px;
             transition: transform 0.3s ease;
         }
 
