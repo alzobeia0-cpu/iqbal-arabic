@@ -153,6 +153,23 @@
             font-size: 16px;
             color: var(--primary);
         }
+
+        .btn-link {
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .loading-text {
+            text-align: center;
+            font-size: 18px;
+            color: #64748b;
+            padding: 30px;
+        }
     </style>
 </head>
 <body>
@@ -170,106 +187,85 @@
     <p>اختر الوحدة الدراسية لعرض الدروس والمطالعة</p>
 </div>
 
-<div class="container">
-
-    <!-- الوحدة الأولى -->
-    <details class="unit-accordion">
-        <summary class="unit-summary">
-            <span>الوحدة الأولى: الأُولى</span>
-        </summary>
-        <div class="unit-content">
-            <div class="lessons-list">
-                <div class="lesson-card"><h4>📖 أستمعُ بانتباهٍ وتركيزٍ</h4></div>
-                <div class="lesson-card"><h4>🗣️ أسردُ قصّةً</h4></div>
-                <div class="lesson-card"><h4>📘 أقرأُ بإنطاقٍ وسلاسةٍ: نملة سليمان</h4></div>
-                <div class="lesson-card"><h4>🔍 أستكشفُ الشبكةَ والأفكارَ</h4></div>
-                <div class="lesson-card"><h4>📝 أبني لغتي</h4></div>
-                <div class="lesson-card"><h4>✍️ أكتبُ</h4></div>
-                <div class="lesson-card"><h4>✏️ أراجعُ خطّي</h4></div>
-                <div class="lesson-card"><h4>📊 أقيّمُ ذاتي</h4></div>
-            </div>
-        </div>
-    </details>
-
-    <!-- الوحدة الثانية -->
-    <details class="unit-accordion">
-        <summary class="unit-summary">
-            <span>الوحدة الثَّانية: الثَّانية</span>
-        </summary>
-        <div class="unit-content">
-            <div class="lessons-list">
-                <div class="lesson-card"><h4>📖 أستمعُ بانتباهٍ وتركيزٍ</h4></div>
-                <div class="lesson-card"><h4>🗣️ أسردُ قصّةً</h4></div>
-                <div class="lesson-card"><h4>🎨 أقرأُ بإنطاقٍ وسلاسةٍ: لوحة طارق</h4></div>
-                <div class="lesson-card"><h4>🔍 أستكشفُ الشبكةَ والأفكارَ</h4></div>
-                <div class="lesson-card"><h4>📝 أبني لغتي</h4></div>
-                <div class="lesson-card"><h4>✍️ أكتبُ</h4></div>
-                <div class="lesson-card"><h4>✏️ أراجعُ خطّي</h4></div>
-                <div class="lesson-card"><h4>📊 أقيّمُ ذاتي</h4></div>
-            </div>
-        </div>
-    </details>
-
-    <!-- الوحدة الثالثة -->
-    <details class="unit-accordion">
-        <summary class="unit-summary">
-            <span>الوحدة الثَّالثة: الثَّالثة</span>
-        </summary>
-        <div class="unit-content">
-            <div class="lessons-list">
-                <div class="lesson-card"><h4>📖 أستمعُ بانتباهٍ وتركيزٍ</h4></div>
-                <div class="lesson-card"><h4>🗣️ أسردُ قصّةً</h4></div>
-                <div class="lesson-card"><h4>🇯🇴 أقرأُ بإنطاقٍ وسلاسةٍ: السلام الملكي</h4></div>
-                <div class="lesson-card"><h4>🔍 أستكشفُ الشبكةَ والأفكارَ</h4></div>
-                <div class="lesson-card"><h4>📝 أبني لغتي</h4></div>
-                <div class="lesson-card"><h4>✍️ أكتبُ</h4></div>
-                <div class="lesson-card"><h4>✏️ أراجعُ خطّي</h4></div>
-                <div class="lesson-card"><h4>📊 أقيّمُ ذاتي</h4></div>
-            </div>
-        </div>
-    </details>
-
-    <!-- الوحدة الرابعة -->
-    <details class="unit-accordion">
-        <summary class="unit-summary">
-            <span>الوحدة الرَّابعة: الرَّابعة</span>
-        </summary>
-        <div class="unit-content">
-            <div class="lessons-list">
-                <div class="lesson-card"><h4>📖 أستمعُ بانتباهٍ وتركيزٍ</h4></div>
-                <div class="lesson-card"><h4>🗣️ أسردُ قصّةً</h4></div>
-                <div class="lesson-card"><h4>🥗 أقرأُ بإنطاقٍ وسلاسةٍ: الغذاء المتوازن</h4></div>
-                <div class="lesson-card"><h4>🔍 أستكشفُ الشبكةَ والأفكارَ</h4></div>
-                <div class="lesson-card"><h4>📝 أبني لغتي</h4></div>
-                <div class="lesson-card"><h4>✍️ أكتبُ</h4></div>
-                <div class="lesson-card"><h4>✏️ أراجعُ خطّي</h4></div>
-                <div class="lesson-card"><h4>📊 أقيّمُ ذاتي</h4></div>
-            </div>
-        </div>
-    </details>
-
-    <!-- الوحدة الخامسة -->
-    <details class="unit-accordion">
-        <summary class="unit-summary">
-            <span>الوحدة الخامسة: الخامسة</span>
-        </summary>
-        <div class="unit-content">
-            <div class="lessons-list">
-                <div class="lesson-card"><h4>📖 أستمعُ بانتباهٍ وتركيزٍ</h4></div>
-                <div class="lesson-card"><h4>🗣️ أسردُ قصّةً</h4></div>
-                <div class="lesson-card"><h4>🐝 أقرأُ بإنطاقٍ وسلاسةٍ: عالم النحل</h4></div>
-                <div class="lesson-card"><h4>🔍 أستكشفُ الشبكةَ والأفكارَ</h4></div>
-                <div class="lesson-card"><h4>📝 أبني لغتي</h4></div>
-                <div class="lesson-card"><h4>✍️ أكتبُ</h4></div>
-                <div class="lesson-card"><h4>✏️ أراجعُ خطّي</h4></div>
-                <div class="lesson-card"><h4>📊 أقيّمُ ذاتي</h4></div>
-            </div>
-        </div>
-    </details>
-
+<div class="container" id="unitsContainer">
+    <div class="loading-text">جاري تحميل الدروس من قاعدة البيانات... ⏳</div>
 </div>
 
 <script>
+    // 1. ضع رابط Google Sheet المنشور كـ CSV هنا
+    const sheetCsvUrl = "ضع_رابط_CSV_الخاص_بجوجل_شيت_هنا";
+
+    async function fetchSheetData() {
+        try {
+            const response = await fetch(sheetCsvUrl);
+            const csvData = await response.text();
+            const rows = parseCSV(csvData);
+            
+            // تجاوز السطر الأول (العناوين)
+            const dataRows = rows.slice(1);
+            
+            // تجميع الدروس حسب اسم الوحدة
+            const unitsMap = {};
+            dataRows.forEach(row => {
+                const unitName = row[0]?.trim();
+                const lessonTitle = row[1]?.trim();
+                const lessonUrl = row[2]?.trim();
+
+                if (unitName) {
+                    if (!unitsMap[unitName]) unitsMap[unitName] = [];
+                    unitsMap[unitName].push({ title: lessonTitle, url: lessonUrl });
+                }
+            });
+
+            renderUnits(unitsMap);
+        } catch (error) {
+            console.error("خطأ في جلب البيانات:", error);
+            document.getElementById('unitsContainer').innerHTML = `
+                <div class="loading-text" style="color:#ef4444;">
+                    عذرًا، تعذر تحميل البيانات. التأكد من رابط جوجل شيت.
+                </div>`;
+        }
+    }
+
+    function parseCSV(text) {
+        return text.split('\n').map(line => line.split(','));
+    }
+
+    function renderUnits(unitsMap) {
+        const container = document.getElementById('unitsContainer');
+        container.innerHTML = '';
+
+        Object.keys(unitsMap).forEach(unitName => {
+            const lessons = unitsMap[unitName];
+            
+            let lessonsHTML = lessons.map(lesson => `
+                <div class="lesson-card">
+                    <h4>${lesson.title}</h4>
+                    ${lesson.url ? `<a href="${lesson.url}" target="_blank" class="btn-link">🔗 عرض الدرس</a>` : ''}
+                </div>
+            `).join('');
+
+            const accordionHTML = `
+                <details class="unit-accordion">
+                    <summary class="unit-summary">
+                        <span>${unitName}</span>
+                    </summary>
+                    <div class="unit-content">
+                        <div class="lessons-list">
+                            ${lessonsHTML}
+                        </div>
+                    </div>
+                </details>
+            `;
+
+            container.innerHTML += accordionHTML;
+        });
+    }
+
+    // تشغيل جلب البيانات عند الفتح
+    fetchSheetData();
+
+    // التحقق من تسجيل الدخول
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
         window.location.href = "login.html";
