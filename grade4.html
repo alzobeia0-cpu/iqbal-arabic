@@ -3,128 +3,143 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الرابع الأساسي - منصة الإقبال</title>
+    <title>منصة الإقبال - الصف الرابع الابتدائي</title>
     <style>
         :root {
-            --primary-green: #0a5244;
-            --gold-accent: #c59b27;
-            --bg-light: #f8fafc;
-            --text-dark: #1e293b;
+            --primary: #1e293b;
+            --accent: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
+            --text-dark: #334155;
         }
 
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: var(--bg-light);
+            background-color: var(--bg);
             margin: 0;
             padding: 0;
             color: var(--text-dark);
             direction: rtl;
         }
 
-        /* شريط تنقل علوي بسيط للعودة */
-        .top-bar {
-            background-color: #05332a;
+        /* هيدر موحد كحلي مطابِق لصفحة الصفوف والمواد */
+        header {
+            background: var(--primary);
             color: white;
-            padding: 10px 30px;
+            padding: 15px 30px;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
         }
-        .top-bar a {
+
+        .logo-link {
             color: white;
             text-decoration: none;
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .user-nav {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+        .btn-home {
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            padding: 8px 14px;
+            border-radius: 6px;
             font-weight: bold;
             font-size: 14px;
         }
+
         .btn-logout {
             background: #ef4444;
             color: white;
             border: none;
-            padding: 6px 14px;
+            padding: 8px 14px;
             border-radius: 6px;
             cursor: pointer;
             font-weight: bold;
-            font-size: 13px;
+            font-size: 14px;
         }
 
-        /* الهيدر الرئيسي المطابق للصورة */
-        .hero-header {
-            background-color: var(--primary-green);
-            color: white;
+        /* الهيدر الفرعي */
+        .page-header {
             text-align: center;
-            padding: 35px 20px;
-            border-bottom: 5px solid var(--gold-accent);
-        }
-        .hero-header h1 {
-            margin: 0 0 10px 0;
-            font-size: 32px;
-            font-weight: bold;
-        }
-        .hero-header p {
-            margin: 0;
-            font-size: 16px;
-            opacity: 0.9;
+            margin: 30px 0;
         }
 
-        /* الحاوية الرئيسية */
+        .page-header h1 {
+            color: var(--primary);
+            font-size: 28px;
+            margin-bottom: 8px;
+        }
+
+        .page-header p {
+            color: #64748b;
+            margin: 0;
+            font-size: 15px;
+        }
+
         .container {
-            max-width: 750px;
-            margin: 40px auto;
+            max-width: 800px;
+            margin: 0 auto 50px auto;
             padding: 0 20px;
         }
 
-        /* تصميم شريط الوحدة المنسدل */
+        /* القوائم المنسدلة للوحدات الملونة بكحلي وأزرق */
         .unit-accordion {
             background-color: white;
             border-radius: 12px;
-            margin-bottom: 18px;
-            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06);
+            margin-bottom: 16px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+            border: 1px solid #e2e8f0;
             overflow: hidden;
         }
 
         .unit-summary {
-            background-color: var(--primary-green);
+            background-color: var(--primary);
             color: white;
-            padding: 18px 25px;
-            font-size: 20px;
+            padding: 18px 24px;
+            font-size: 18px;
             font-weight: bold;
             cursor: pointer;
-            list-style: none; /* إخفاء سهم المتصفح الافتراضي */
+            list-style: none;
             display: flex;
             justify-content: space-between;
             align-items: center;
             transition: background 0.2s ease;
-            border-radius: 12px;
         }
 
-        /* تغيير اتجاه السهم عند الفتح */
         .unit-summary::-webkit-details-marker { display: none; }
         .unit-summary::before {
             content: "▼";
-            font-size: 14px;
+            font-size: 13px;
             transition: transform 0.3s ease;
         }
+
         .unit-accordion[open] .unit-summary::before {
             transform: rotate(180deg);
         }
 
         .unit-summary:hover {
-            background-color: #073f34;
+            background-color: var(--accent);
         }
 
-        /* المحتوى الداخلي عند فتح الوحدة */
+        /* قائمة الدروس */
         .unit-content {
-            padding: 20px 25px;
+            padding: 20px;
             background-color: #ffffff;
-            border: 1px solid #e2e8f0;
-            border-top: none;
-            border-bottom-left-radius: 12px;
-            border-bottom-right-radius: 12px;
+            border-top: 1px solid #e2e8f0;
         }
 
         .lessons-list {
             display: grid;
-            gap: 12px;
+            gap: 10px;
         }
 
         .lesson-card {
@@ -140,29 +155,23 @@
         .lesson-card h4 {
             margin: 0;
             font-size: 16px;
-            color: var(--text-dark);
-        }
-
-        .btn-video {
-            background-color: #ef4444;
-            color: white;
-            text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: bold;
+            color: var(--primary);
         }
     </style>
 </head>
 <body>
 
-<div class="top-bar">
-    <a href="materials.html">🏠 العودة للصفوف</a>
-    <button class="btn-logout" onclick="logout()">تسجيل الخروج</button>
-</div>
+<!-- هيدر موحد متناسق مع materials.html -->
+<header>
+    <a href="materials.html" class="logo-link">📚 منصة الإقبال التعليمية</a>
+    <div class="user-nav">
+        <a href="materials.html" class="btn-home">🏠 الرئيسية</a>
+        <button class="btn-logout" onclick="logout()">تسجيل الخروج</button>
+    </div>
+</header>
 
-<div class="hero-header">
-    <h1>الصف الرابع الأساسي</h1>
+<div class="page-header">
+    <h1>🌱 الصف الرابع الابتدائي</h1>
     <p>اختر الوحدة الدراسية لعرض الدروس والمطالعة</p>
 </div>
 
@@ -171,7 +180,7 @@
     <!-- الوحدة الأولى -->
     <details class="unit-accordion">
         <summary class="unit-summary">
-            <span>الأولى: من قصص القرآن الكريم</span>
+            <span>الوحدة الأولى: من قصص القرآن الكريم</span>
         </summary>
         <div class="unit-content">
             <div class="lessons-list">
@@ -197,7 +206,7 @@
     <!-- الوحدة الثانية -->
     <details class="unit-accordion">
         <summary class="unit-summary">
-            <span>الثَّانية: هوايتي</span>
+            <span>الوحدة الثَّانية: هوايتي</span>
         </summary>
         <div class="unit-content">
             <div class="lessons-list">
@@ -214,7 +223,7 @@
     <!-- الوحدة الثالثة -->
     <details class="unit-accordion">
         <summary class="unit-summary">
-            <span>الثَّالثة: أُحبُّ وطني</span>
+            <span>الوحدة الثَّالثة: أُحبُّ وطني</span>
         </summary>
         <div class="unit-content">
             <div class="lessons-list">
@@ -228,7 +237,7 @@
     <!-- الوحدة الرابعة -->
     <details class="unit-accordion">
         <summary class="unit-summary">
-            <span>الرَّابعة: الغِذاء المتوازن</span>
+            <span>الوحدة الرَّابعة: الغِذاء المتوازن</span>
         </summary>
         <div class="unit-content">
             <div class="lessons-list">
@@ -242,7 +251,7 @@
     <!-- الوحدة الخامسة -->
     <details class="unit-accordion">
         <summary class="unit-summary">
-            <span>الخامسة: النّحل</span>
+            <span>الوحدة الخامسة: النّحل</span>
         </summary>
         <div class="unit-content">
             <div class="lessons-list">
