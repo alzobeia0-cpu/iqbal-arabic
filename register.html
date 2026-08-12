@@ -3,134 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إنشاء حساب طالب - منصة الإقبال</title>
+    <title>تسجيل الدخول - منصة الإقبال</title>
     <style>
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f4f7f6;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            min-height: 100vh;
-            margin: 0;
-        }
-        .register-container {
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 10px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            width: 100%;
-            max-width: 400px;
-        }
-        h2 {
-            text-align: center;
-            color: #2c3e50;
-            margin-bottom: 20px;
-        }
-        .form-group {
-            margin-bottom: 15px;
-        }
-        label {
-            display: block;
-            margin-bottom: 5px;
-            color: #333;
-            font-weight: bold;
-        }
-        input, select {
-            width: 100%;
-            padding: 10px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
-            box-sizing: border-box;
-            font-size: 14px;
-        }
-        button {
-            width: 100%;
-            padding: 12px;
-            background-color: #27ae60;
-            color: white;
-            border: none;
-            border-radius: 5px;
-            font-size: 16px;
-            cursor: pointer;
-            font-weight: bold;
-            margin-top: 10px;
-        }
-        button:hover {
-            background-color: #219150;
-        }
-        .login-link {
-            text-align: center;
-            margin-top: 15px;
-            font-size: 14px;
-        }
-        .login-link a {
-            color: #2980b9;
-            text-decoration: none;
-            font-weight: bold;
-        }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
+        .card { background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
+        h2 { text-align: center; color: #2c3e50; margin-bottom: 20px; }
+        .form-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
+        input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
+        button { width: 100%; padding: 12px; background-color: #2980b9; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button:disabled { background-color: #95a5a6; cursor: not-allowed; }
+        .msg { margin-top: 15px; text-align: center; font-weight: bold; font-size: 14px; }
+        .msg.success { color: #27ae60; }
+        .msg.error { color: #e74c3c; }
+        .link { text-align: center; margin-top: 15px; font-size: 14px; }
+        .link a { color: #27ae60; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
-    <div class="register-container">
-        <h2>إنشاء حساب طالب</h2>
-        
-        <form id="registerForm">
-            <div class="form-group">
-                <label for="fullname">الاسم الكامل:</label>
-                <input type="text" id="fullname" required placeholder="أدخل اسمك الثلاثي">
-            </div>
-
-            <div class="form-group">
-                <label for="email">البريد الإلكتروني:</label>
-                <input type="email" id="email" required placeholder="example@domain.com">
-            </div>
-
-            <div class="form-group">
-                <label for="grade">الصف الدراسي:</label>
-                <select id="grade" required>
-                    <option value="">اختر الصف...</option>
-                    <option value="4">الصف الرابع</option>
-                    <option value="5">الصف الخامس</option>
-                    <option value="6">الصف السادس</option>
-                    <option value="7">الصف السابع</option>
-                    <option value="8">الصف الثامن</option>
-                    <option value="9">الصف التاسع</option>
-                    <option value="10">الصف العاشر</option>
-                    <option value="11">الأول ثانوي</option>
-                    <option value="12">الثاني ثانوي (التوجيهي)</option>
-                </select>
-            </div>
-
-            <div class="form-group">
-                <label for="password">كلمة المرور:</label>
-                <input type="password" id="password" required minlength="6" placeholder="******">
-            </div>
-
-            <button type="submit">تسجيل الحساب</button>
-        </form>
-
-        <div class="login-link">
-            عندك حساب مسبقًا؟ <a href="login.html">سجّل الدخول</a>
+<div class="card">
+    <h2>تسجيل الدخول</h2>
+    <form id="loginForm">
+        <div class="form-group">
+            <label for="email">البريد الإلكتروني:</label>
+            <input type="email" id="email" required placeholder="example@gmail.com">
         </div>
+        <div class="form-group">
+            <label for="password">كلمة المرور:</label>
+            <input type="password" id="password" required placeholder="******">
+        </div>
+        <button type="submit" id="btnSubmit">دخول</button>
+        <div id="statusMsg" class="msg"></div>
+    </form>
+    <div class="link">
+        ليس لديك حساب؟ <a href="register.html">أنشئ حسابًا جديدًا</a>
     </div>
+</div>
 
-    <script>
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            const name = document.getElementById('fullname').value;
-            const email = document.getElementById('email').value;
-            const grade = document.getElementById('grade').value;
+<script>
+    // ⚠️ استبدل هذا الرابط برابط الـ Web App الخاص بك
+    const SCRIPT_URL = "ضع_رابط_السكربت_هنا";
 
-            // هنا يتم إضافة كود الربط مع قاعدة البيانات (مثل Firebase أو API)
-            alert(`تم استلام طلب التسجيل بنجاح للطالب: ${name}`);
-            
-            // التوجيه إلى صفحة تسجيل الدخول أو الصفحة الرئيسية بعد التسجيل
-            // window.location.href = "login.html";
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        const btn = document.getElementById('btnSubmit');
+        const msg = document.getElementById('statusMsg');
+        
+        btn.disabled = true;
+        btn.innerText = "جاري التحقق...";
+        msg.innerText = "";
+
+        const params = new URLSearchParams({
+            action: 'login',
+            email: document.getElementById('email').value,
+            password: document.getElementById('password').value
         });
-    </script>
+
+        fetch(SCRIPT_URL + "?" + params.toString(), { method: 'POST' })
+        .then(res => res.json())
+        .then(data => {
+            btn.disabled = false;
+            btn.innerText = "دخول";
+            if(data.status === "success") {
+                msg.className = "msg success";
+                msg.innerText = `أهلاً بك يا ${data.user.name}! جاري الدخول...`;
+                localStorage.setItem('user', JSON.stringify(data.user));
+                setTimeout(() => window.location.href = "index.html", 1500);
+            } else {
+                msg.className = "msg error";
+                msg.innerText = data.message || "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+            }
+        })
+        .catch(() => {
+            btn.disabled = false;
+            btn.innerText = "دخول";
+            msg.className = "msg error";
+            msg.innerText = "تعذر الاتصال بالموقع. تأكد من إعدادات النشر على Google Apps Script.";
+        });
+    });
+</script>
 
 </body>
 </html>
