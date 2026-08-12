@@ -188,13 +188,12 @@
 </div>
 
 <div class="container" id="unitsContainer">
-    <div class="loading-text">جاري تحميل البيانات من جوجل شيت... ⏳</div>
+    <div class="loading-text">جاري تحميل الدروس من قاعدة البيانات... ⏳</div>
 </div>
 
 <script>
-    // رابط تحويل الشيت الخاص بك إلى ملف CSV لتلقي البيانات تلقائياً
-    const sheetId = "1E8K4raHyPNcGz2yA9AICJCmJtfXX7BD7HxNMePr8W2g";
-    const sheetCsvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
+    // رابط النشر المباشر بصيغة CSV المستخرج من رابط pubhtml الخاص بك
+    const sheetCsvUrl = "https://docs.google.com/spreadsheets/d/e/2PACX-1vQc-GebJO-z5OgDXvQlLDBkdE1XFHvL_B2c6GG4hee8G1E5tYs_Vpybki7B_9Byz_lemrtCd1mvaGHd/pub?output=csv";
 
     async function fetchSheetData() {
         try {
@@ -202,7 +201,7 @@
             const csvData = await response.text();
             const rows = parseCSV(csvData);
             
-            // استبعاد السطر الأول (العناوين)
+            // استبعاد الصف الأول إذا كان يحتوي على عناوين الأوردة
             const dataRows = rows.slice(1);
             
             const unitsMap = {};
@@ -222,7 +221,7 @@
             console.error("خطأ في جلب البيانات:", error);
             document.getElementById('unitsContainer').innerHTML = `
                 <div class="loading-text" style="color:#ef4444;">
-                    عذرًا، تعذر تحميل البيانات. التأكد من مشاركة الجدول على الويب.
+                    عذرًا، تعذر تحميل البيانات. يرجى إعادة المحاولة لاحقاً.
                 </div>`;
         }
     }
