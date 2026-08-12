@@ -150,23 +150,44 @@
             border-radius: 8px;
         }
 
-        .lesson-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 10px;
+        .lesson-card h4 {
+            margin: 0 0 12px 0;
+            font-size: 17px;
+            color: var(--primary);
+            font-weight: bold;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
         }
 
-        .lesson-card h4 {
-            margin: 0;
-            font-size: 16px;
-            color: var(--primary);
+        .resources-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 12px;
+        }
+
+        .btn-resource {
+            background: var(--accent);
+            color: white;
+            text-decoration: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.2s;
+        }
+
+        .btn-resource:hover {
+            background: #1d4ed8;
         }
 
         .video-container {
             position: relative;
             width: 100%;
-            padding-bottom: 56.25%; /* نسبة أبعاد الفيديو 16:9 */
+            padding-bottom: 56.25%;
             height: 0;
             margin-top: 10px;
             border-radius: 6px;
@@ -181,16 +202,6 @@
             width: 100%;
             height: 100%;
             border: none;
-        }
-
-        .btn-link {
-            background: var(--accent);
-            color: white;
-            text-decoration: none;
-            padding: 6px 12px;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: bold;
         }
 
         .loading-text {
@@ -213,7 +224,7 @@
 
 <div class="page-header">
     <h1>🌱 الصف السابع الابتدائي - اللغة العربية</h1>
-    <p>اختر الوحدة الدراسية لعرض الدروس والمطالعة مباشرة داخل المنصة</p>
+    <p>اختر الوحدة الدراسية لعرض الدروس والمحتويات الكاملة</p>
 </div>
 
 <div class="container" id="unitsContainer">
@@ -233,14 +244,23 @@
             const unitsMap = {};
 
             dataRows.forEach(row => {
-                const gradeCode = row[0]?.trim();   // العمود (A): رمز الصف (7)
-                const unitName = row[1]?.trim();    // العمود (B): اسم الوحدة
-                const lessonTitle = row[2]?.trim(); // العمود (C): عنوان الدرس
-                const lessonUrl = row[3]?.trim();   // العمود (D): الرابط
+                const gradeCode = row[0]?.trim();     // 1. الصف (Grade)
+                const unitName = row[1]?.trim();      // 2. الوحدة (Unit)
+                const lessonTitle = row[2]?.trim();   // 3. العنوان (Title)
+                const videoUrl = row[3]?.trim();      // 4. الفيديو (Video)
+                const pdfUrl = row[4]?.trim();        // 5. الـ PDF (PDF)
+                const quizUrl = row[5]?.trim();       // 6. الاختبار (Quiz)
+                const worksheetUrl = row[6]?.trim();  // 7. أوراق العمل (Worksheets)
 
                 if (gradeCode === "7" && unitName && lessonTitle) {
                     if (!unitsMap[unitName]) unitsMap[unitName] = [];
-                    unitsMap[unitName].push({ title: lessonTitle, url: lessonUrl });
+                    unitsMap[unitName].push({
+                        title: lessonTitle,
+                        video: videoUrl,
+                        pdf: pdfUrl,
+                        quiz: quizUrl,
+                        worksheet: worksheetUrl
+                    });
                 }
             });
 
@@ -255,22 +275,33 @@
     }
 
     function parseCSV(text) {
-        return text.split('\n').map(line => line.split(','));
+        let lines = text.split('\n');
+        return lines.map(line => {
+            let row = [];
+            let inQuotes = false;
+            let current = '';
+            for (let i = 0; i < line.length; i++) {
+                let char = line[i];
+                if (char === '"') {
+                    inQuotes = !inQuotes;
+                } else if (char === ',' && !inQuotes) {
+                    row.push(current);
+                    current = '';
+                } else {
+                    current += char;
+                }
+            }
+            row.push(current);
+            return row;
+        });
     }
 
-    // دالة لتحويل رابط يوتيوب العادي إلى رابط تضمين (Embed) ليعمل داخل الموقع دون أخطاء
     function getEmbedUrl(url) {
         if (!url) return '';
         let videoId = '';
-        if (url.includes('youtu.be/')) {
-            videoId = url.split('youtu.be/')[1]?.split('?')[0];
-        } else if (url.includes('watch?v=')) {
-            videoId = url.split('watch?v=')[1]?.split('&')[0];
-        }
-        if (videoId) {
-            return `https://www.youtube.com/embed/${videoId}`;
-        }
-        return url; // إن لم يكن يوتيوب، يعيد الرابط الأصلي
+        if (url.includes('youtu.be/')) videoId = url.split('youtu.be/')[1]?.split('?')[0];
+        else if (url.includes('watch?v=')) videoId = url.split('watch?v=')[1]?.split('&')[0];
+        return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
     }
 
     function renderUnits(unitsMap) {
@@ -286,28 +317,32 @@
             const lessons = unitsMap[unitName];
             
             let lessonsHTML = lessons.map(lesson => {
-                let contentHTML = '';
-                if (lesson.url && lesson.url.startsWith('http')) {
-                    // التحقق إن كان الرابط يوتيوب لعرضه كفيديو مباشر، أو زر عادي للملفات الأخرى
-                    if (lesson.url.includes('youtube.com') || lesson.url.includes('youtu.be')) {
-                        const embedUrl = getEmbedUrl(lesson.url);
-                        contentHTML = `
+                let videoHTML = '';
+                if (lesson.video && lesson.video.startsWith('http')) {
+                    if (lesson.video.includes('youtube.com') || lesson.video.includes('youtu.be')) {
+                        videoHTML = `
                             <div class="video-container">
-                                <iframe src="${embedUrl}" title="${lesson.title}" allowfullscreen></iframe>
+                                <iframe src="${getEmbedUrl(lesson.video)}" allowfullscreen></iframe>
                             </div>
                         `;
                     } else {
-                        contentHTML = `<a href="${lesson.url}" target="_blank" rel="noopener noreferrer" class="btn-link">🔗 فتح الملف / الاختبار</a>`;
+                        videoHTML = `<a href="${lesson.video}" target="_blank" class="btn-resource">🎥 مشاهدة الفيديو</a>`;
                     }
                 }
 
+                let pdfHTML = (lesson.pdf && lesson.pdf.startsWith('http')) ? `<a href="${lesson.pdf}" target="_blank" class="btn-resource">📄 عرض ملف PDF</a>` : '';
+                let quizHTML = (lesson.quiz && lesson.quiz.startsWith('http')) ? `<a href="${lesson.quiz}" target="_blank" class="btn-resource">📝 حل الاختبار</a>` : '';
+                let worksheetHTML = (lesson.worksheet && lesson.worksheet.startsWith('http')) ? `<a href="${lesson.worksheet}" target="_blank" class="btn-resource">📋 أوراق العمل</a>` : '';
+
                 return `
                     <div class="lesson-card">
-                        <div class="lesson-header">
-                            <h4>${lesson.title}</h4>
-                            ${!lesson.url || (!lesson.url.includes('youtube.com') && !lesson.url.includes('youtu.be')) ? contentHTML : ''}
+                        <h4>${lesson.title}</h4>
+                        ${videoHTML}
+                        <div class="resources-grid">
+                            ${pdfHTML}
+                            ${quizHTML}
+                            ${worksheetHTML}
                         </div>
-                        ${lesson.url && (lesson.url.includes('youtube.com') || lesson.url.includes('youtu.be')) ? contentHTML : ''}
                     </div>
                 `;
             }).join('');
