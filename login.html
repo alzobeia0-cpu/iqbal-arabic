@@ -66,9 +66,20 @@
             btn.innerText = "دخول";
             if(data.status === "success") {
                 msg.className = "msg success";
-                msg.innerText = `أهلاً بك يا ${data.user.name}! جاري الدخول...`;
+                msg.innerText = `أهلاً بك يا ${data.user.name}! جاري التوجيه...`;
+                
                 localStorage.setItem('user', JSON.stringify(data.user));
-                setTimeout(() => window.location.href = "index.html", 1500);
+
+                // التوجيه تلقائياً حسب نوع الحساب
+                setTimeout(() => {
+                    const role = data.user.role ? data.user.role.toLowerCase() : 'student';
+                    if (role === 'super_admin' || role === 'admin') {
+                        window.location.href = "admin.html"; // لوحة التحكم للمسؤولين
+                    } else {
+                        window.location.href = "materials.html"; // صفحة الدروس والمواد للطلاب
+                    }
+                }, 1200);
+
             } else {
                 msg.className = "msg error";
                 msg.innerText = data.message || "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
@@ -78,7 +89,7 @@
             btn.disabled = false;
             btn.innerText = "دخول";
             msg.className = "msg error";
-            msg.innerText = "تعذر الاتصال بالموقع. تأكد من إعدادات النشر على Google Apps Script.";
+            msg.innerText = "تعذر الاتصال بالموقع.";
         });
     });
 </script>
