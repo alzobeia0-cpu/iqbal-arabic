@@ -2,67 +2,84 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>إنشاء حساب جديد — منصة الإقبال التعليمية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إنشاء حساب - منصة الإقبال التعليمية</title>
     <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Tajawal', sans-serif; background: #F8F9FA; display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
-        .register-card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
-        h2 { color: #0A5C4D; text-align: center; }
-        input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #E2E8F0; border-radius: 8px; box-sizing: border-box; }
-        button { width: 100%; padding: 12px; background: #0A5C4D; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 1rem; margin-top: 10px; }
+        :root { --primary: #0A5C4D; --bg: #F8F9FA; --text: #2D3748; }
+        body { font-family: 'Tajawal', sans-serif; background: var(--bg); color: var(--text); display: flex; justify-content: center; align-items: center; height: 100vh; margin: 0; }
+        .login-card { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 25px rgba(0,0,0,0.05); width: 100%; max-width: 400px; box-sizing: border-box; }
+        h2 { color: var(--primary); text-align: center; margin-bottom: 25px; }
+        .form-group { margin-bottom: 18px; }
+        label { display: block; margin-bottom: 8px; font-weight: bold; font-size: 0.9rem; }
+        input { width: 100%; padding: 12px; border: 1px solid #CBD5E0; border-radius: 8px; box-sizing: border-box; font-family: 'Tajawal', sans-serif; }
+        button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; }
         button:hover { background: #063C32; }
-        .message { text-align: center; margin-top: 15px; font-size: 0.9rem; }
-        .link { text-align: center; margin-top: 15px; display: block; color: #0A5C4D; text-decoration: none; font-size: 0.9rem; }
+        .msg { text-align: center; margin-top: 15px; font-size: 0.9rem; color: #E53E3E; }
+        .msg.ok { color: #1E7A4C; }
+        .switch-link { text-align: center; margin-top: 18px; font-size: 0.85rem; }
+        .switch-link a { color: var(--primary); font-weight: bold; }
     </style>
 </head>
 <body>
 
-<div class="register-card">
-    <h2>حساب طالب جديد</h2>
-    <input type="text" id="name" placeholder="الاسم الكامل">
-    <input type="email" id="email" placeholder="البريد الإلكتروني">
-    <input type="password" id="password" placeholder="كلمة المرور">
-    <button onclick="register()">تسجيل</button>
-    <div id="message" class="message"></div>
-    <a href="login.html" class="link">لديك حساب بالفعل؟ تسجيل الدخول</a>
-</div>
+    <div class="login-card">
+        <h2>إنشاء حساب طالب</h2>
+        <form id="registerForm">
+            <div class="form-group">
+                <label>الاسم الكامل</label>
+                <input type="text" name="name" required placeholder="مثال: أحمد محمد">
+            </div>
+            <div class="form-group">
+                <label>البريد الإلكتروني</label>
+                <input type="email" name="email" required placeholder="example@domain.com">
+            </div>
+            <div class="form-group">
+                <label>كلمة المرور</label>
+                <input type="password" name="password" required placeholder="********" minlength="6">
+            </div>
+            <button type="submit" id="submitBtn">إنشاء الحساب</button>
+            <div id="msg" class="msg"></div>
+        </form>
+        <div class="switch-link">عندك حساب مسبقًا؟ <a href="login.html">سجّل الدخول</a></div>
+    </div>
 
-<script>
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbyRJR8Vmlim2W3FWlukNZCtHxsjC68RdaDKtnybaOsFWHfm0_lL_HjI-lX36gxHgEWg/exec';
+    <script>
+        const scriptURL = "https://script.google.com/macros/s/AKfycbyw3Se7_OG2YotprOoe7NZ_wZioaUemueC2j9IXp7f4GztS0mQER7JC-kzDCinN-st6/exec";
 
-    async function register() {
-        const msg = document.getElementById('message');
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
+        const form = document.getElementById('registerForm');
+        const msg = document.getElementById('msg');
+        const submitBtn = document.getElementById('submitBtn');
 
-        if (!name || !email || !password) {
-            msg.innerHTML = "الرجاء تعبئة جميع الحقول";
-            return;
-        }
+        form.addEventListener('submit', e => {
+            e.preventDefault();
+            msg.className = 'msg';
+            msg.textContent = "جاري إنشاء الحساب...";
+            submitBtn.disabled = true;
 
-        msg.innerHTML = "جاري إنشاء الحساب...";
-        
-        try {
-            const response = await fetch(scriptURL, {
-                method: 'POST',
-                body: JSON.stringify({ action: 'register', name, email, password })
+            const name = encodeURIComponent(form.name.value.trim());
+            const email = encodeURIComponent(form.email.value.trim());
+            const password = encodeURIComponent(form.password.value.trim());
+            const url = `${scriptURL}?action=register&name=${name}&email=${email}&password=${password}`;
+
+            fetch(url, { method: 'GET' })
+            .then(response => response.json())
+            .then(result => {
+                if (result.status === "success") {
+                    localStorage.setItem('user', JSON.stringify(result.user));
+                    msg.className = 'msg ok';
+                    msg.textContent = "تم إنشاء الحساب بنجاح! جاري تحويلك...";
+                    setTimeout(() => window.location.href = "index.html", 1200);
+                } else {
+                    msg.textContent = result.message || "تعذر إنشاء الحساب";
+                    submitBtn.disabled = false;
+                }
+            })
+            .catch(error => {
+                msg.textContent = "تعذر الاتصال بالسيرفر: " + error.message;
+                submitBtn.disabled = false;
             });
-            const data = await response.json();
-
-            if (data.status === 'success') {
-                msg.innerHTML = "تم إنشاء الحساب بنجاح! جاري تحويلك لتسجيل الدخول...";
-                setTimeout(() => {
-                    window.location.href = 'login.html'; 
-                }, 1500);
-            } else {
-                msg.innerHTML = data.message;
-            }
-        } catch (e) {
-            msg.innerHTML = "خطأ في الاتصال بالسيرفر";
-        }
-    }
-</script>
-
+        });
+    </script>
 </body>
 </html>
