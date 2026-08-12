@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>تسجيل الدخول - منصة الإقبال</title>
+    <title>إنشاء حساب طالب - منصة الإقبال</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; }
         .card { background: #ffffff; padding: 30px; border-radius: 10px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 400px; }
@@ -11,51 +11,55 @@
         .form-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; font-weight: bold; color: #333; }
         input { width: 100%; padding: 10px; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; font-size: 14px; }
-        button { width: 100%; padding: 12px; background-color: #2980b9; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
+        button { width: 100%; padding: 12px; background-color: #27ae60; color: white; border: none; border-radius: 5px; font-size: 16px; font-weight: bold; cursor: pointer; margin-top: 10px; }
         button:disabled { background-color: #95a5a6; cursor: not-allowed; }
         .msg { margin-top: 15px; text-align: center; font-weight: bold; font-size: 14px; }
         .msg.success { color: #27ae60; }
         .msg.error { color: #e74c3c; }
         .link { text-align: center; margin-top: 15px; font-size: 14px; }
-        .link a { color: #27ae60; text-decoration: none; font-weight: bold; }
+        .link a { color: #2980b9; text-decoration: none; font-weight: bold; }
     </style>
 </head>
 <body>
 
 <div class="card">
-    <h2>تسجيل الدخول</h2>
-    <form id="loginForm">
+    <h2>إنشاء حساب طالب</h2>
+    <form id="registerForm">
+        <div class="form-group">
+            <label for="name">الاسم الكامل:</label>
+            <input type="text" id="name" required placeholder="أدخل اسمك الثلاثي">
+        </div>
         <div class="form-group">
             <label for="email">البريد الإلكتروني:</label>
             <input type="email" id="email" required placeholder="example@gmail.com">
         </div>
         <div class="form-group">
             <label for="password">كلمة المرور:</label>
-            <input type="password" id="password" required placeholder="******">
+            <input type="password" id="password" required minlength="6" placeholder="******">
         </div>
-        <button type="submit" id="btnSubmit">دخول</button>
+        <button type="submit" id="btnSubmit">تسجيل الحساب</button>
         <div id="statusMsg" class="msg"></div>
     </form>
     <div class="link">
-        ليس لديك حساب؟ <a href="register.html">أنشئ حسابًا جديدًا</a>
+        عندك حساب مسبقًا؟ <a href="login.html">سجّل الدخول</a>
     </div>
 </div>
 
 <script>
-    // ⚠️ استبدل هذا الرابط برابط الـ Web App الخاص بك
-    const SCRIPT_URL = "ضع_رابط_السكربت_هنا";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxZ1TIZztxbzVczZkdjr2CdMPanQuaUuZM37LepMHzqeHOFr75Ex-AV17Ggzdu9Rv2C/exec";
 
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
+    document.getElementById('registerForm').addEventListener('submit', function(e) {
         e.preventDefault();
         const btn = document.getElementById('btnSubmit');
         const msg = document.getElementById('statusMsg');
         
         btn.disabled = true;
-        btn.innerText = "جاري التحقق...";
+        btn.innerText = "جاري التسجيل...";
         msg.innerText = "";
 
         const params = new URLSearchParams({
-            action: 'login',
+            action: 'register',
+            name: document.getElementById('name').value,
             email: document.getElementById('email').value,
             password: document.getElementById('password').value
         });
@@ -64,22 +68,21 @@
         .then(res => res.json())
         .then(data => {
             btn.disabled = false;
-            btn.innerText = "دخول";
+            btn.innerText = "تسجيل الحساب";
             if(data.status === "success") {
                 msg.className = "msg success";
-                msg.innerText = `أهلاً بك يا ${data.user.name}! جاري الدخول...`;
-                localStorage.setItem('user', JSON.stringify(data.user));
-                setTimeout(() => window.location.href = "index.html", 1500);
+                msg.innerText = "تم إنشاء الحساب بنجاح! جاري التوجيه...";
+                setTimeout(() => window.location.href = "login.html", 1500);
             } else {
                 msg.className = "msg error";
-                msg.innerText = data.message || "البريد الإلكتروني أو كلمة المرور غير صحيحة.";
+                msg.innerText = data.message || "حدث خطأ أثناء التسجيل.";
             }
         })
         .catch(() => {
             btn.disabled = false;
-            btn.innerText = "دخول";
+            btn.innerText = "تسجيل الحساب";
             msg.className = "msg error";
-            msg.innerText = "تعذر الاتصال بالموقع. تأكد من إعدادات النشر على Google Apps Script.";
+            msg.innerText = "تعذر الاتصال بقاعدة البيانات. تأكد من أن خيار Access في النشر مضبوط على Anyone.";
         });
     });
 </script>
