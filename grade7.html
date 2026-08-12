@@ -185,7 +185,6 @@
             background: #1d4ed8;
         }
 
-        /* تنسيق مشغل الفيديو المباشر في البطاقة */
         .video-container {
             position: relative;
             width: 100%;
@@ -206,7 +205,6 @@
             border: none;
         }
 
-        /* نافذة العرض الداخلي المنبثقة (Modal) لفتح أي محتوى بدون خروج الطالب */
         #contentModal {
             display: none;
             position: fixed;
@@ -225,8 +223,8 @@
         .modal-content {
             background: white;
             width: 100%;
-            max-width: 900px;
-            height: 85vh;
+            max-width: 950px;
+            height: 88vh;
             border-radius: 12px;
             display: flex;
             flex-direction: column;
@@ -291,14 +289,13 @@
 
 <div class="page-header">
     <h1>🌱 الصف السابع الابتدائي - اللغة العربية</h1>
-    <p>كل المحتويات والدروس تعمل مباشرة داخل المنصة</p>
+    <p>جميع الدروس، الملفات، والاختبارات تعمل بشكل كامل داخل المنصة</p>
 </div>
 
 <div class="container" id="unitsContainer">
     <div class="loading-text">جاري تحميل دروس الصف السابع... ⏳</div>
 </div>
 
-<!-- نافذة العرض الداخلي للملفات والاختبارات وأوراق العمل -->
 <div id="contentModal">
     <div class="modal-content">
         <div class="modal-header">
@@ -324,13 +321,13 @@
             const unitsMap = {};
 
             dataRows.forEach(row => {
-                const gradeCode = row[0]?.trim();     // 1. الصف
-                const unitName = row[1]?.trim();      // 2. الوحدة
-                const lessonTitle = row[2]?.trim();   // 3. العنوان
-                const videoUrl = row[3]?.trim();      // 4. الفيديو
-                const pdfUrl = row[4]?.trim();        // 5. الـ PDF
-                const quizUrl = row[5]?.trim();       // 6. الاختبار
-                const worksheetUrl = row[6]?.trim();  // 7. أوراق العمل
+                const gradeCode = row[0]?.trim();     
+                const unitName = row[1]?.trim();      
+                const lessonTitle = row[2]?.trim();   
+                const videoUrl = row[3]?.trim();      
+                const pdfUrl = row[4]?.trim();        
+                const quizUrl = row[5]?.trim();       
+                const worksheetUrl = row[6]?.trim();  
 
                 if (gradeCode === "7" && unitName && lessonTitle) {
                     if (!unitsMap[unitName]) unitsMap[unitName] = [];
@@ -384,21 +381,31 @@
         return videoId ? `https://www.youtube.com/embed/${videoId}` : url;
     }
 
-    // دالة لفتح أي رابط داخل نافذة منبثقة داخلية بالموقع
+    function getDriveEmbedUrl(url) {
+        if (!url) return '';
+        if (url.includes('drive.google.com')) {
+            let match = url.match(/\/d\/([a-zA-Z0-9_-]+)/);
+            if (match && match[1]) {
+                return `https://drive.google.com/file/d/${match[1]}/preview`;
+            }
+        }
+        return url;
+    }
+
     function openModal(url, title) {
         const modal = document.getElementById('contentModal');
         const iframe = document.getElementById('modalIframe');
         const modalTitle = document.getElementById('modalTitle');
         
         modalTitle.innerText = title;
-        iframe.src = url;
+        iframe.src = getDriveEmbedUrl(url);
         modal.style.display = 'flex';
     }
 
     function closeModal() {
         const modal = document.getElementById('contentModal');
         const iframe = document.getElementById('modalIframe');
-        iframe.src = ''; // لإيقاف تشغيل الفيديو أو المحتوى عند الإغلاق
+        iframe.src = ''; 
         modal.style.display = 'none';
     }
 
