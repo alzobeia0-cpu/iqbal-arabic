@@ -249,7 +249,7 @@
             let lessonsHTML = lessons.map(lesson => `
                 <div class="lesson-card">
                     <h4>${lesson.title}</h4>
-                    ${(lesson.url && lesson.url.startsWith('http')) ? `<a href="${lesson.url}" target="_blank" class="btn-link">🔗 عرض الدرس</a>` : ''}
+                    ${(lesson.url && lesson.url.startsWith('http')) ? `<a href="${lesson.url}" target="_blank" rel="noopener noreferrer" class="btn-link">🔗 عرض الدرس</a>` : ''}
                 </div>
             `).join('');
 
