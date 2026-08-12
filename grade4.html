@@ -3,107 +3,268 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>الصف الرابع الأساسي — منصة الإقبال التعليمية</title>
-    <link href="https://fonts.googleapis.com/css2?family=El+Messiri:wght@600;700&family=Tajawal:wght@400;500;700&display=swap" rel="stylesheet">
+    <title>الصف الرابع الأساسي - منصة الإقبال</title>
     <style>
-        :root { --bg-color: #F8F9FA; --card-bg: #FFFFFF; --primary: #0A5C4D; --primary-dark: #063C32; --accent: #D4AF37; --text-main: #2D3748; --border-color: #E2E8F0; --shadow: 0 10px 25px -5px rgba(10, 92, 77, 0.08); }
-        body { font-family: 'Tajawal', sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; }
-        header { background: linear-gradient(135deg, var(--primary-dark), var(--primary)); color: #FFFFFF; text-align: center; padding: 40px 20px; border-bottom: 5px solid var(--accent); position: relative; }
-        header h1 { font-family: 'El Messiri', sans-serif; font-size: 2.2rem; margin: 0 0 10px 0; }
-        .back-link { position: absolute; top: 20px; right: 20px; color: #FFFFFF; background: rgba(255, 255, 255, 0.15); padding: 8px 15px; border-radius: 8px; text-decoration: none; font-size: 0.9rem; }
-        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
-        .unit-section { margin-bottom: 20px; background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 14px; overflow: hidden; box-shadow: var(--shadow); }
-        .unit-header { background: var(--primary); color: white; padding: 18px 25px; font-family: 'El Messiri', sans-serif; font-size: 1.3rem; cursor: pointer; display: flex; justify-content: space-between; align-items: center; transition: 0.3s; }
-        .unit-header:hover { background: var(--primary-dark); }
-        .unit-header::after { content: '▼'; font-size: 1rem; transition: transform 0.3s ease; }
-        .unit-section.active .unit-header::after { transform: rotate(180deg); }
-        .unit-content { max-height: 0; overflow: hidden; transition: max-height 0.4s ease-out; background: #FFF; }
-        .unit-section.active .unit-content { max-height: 3000px; transition: max-height 0.6s ease-in; }
-        .lesson-card { padding: 20px 25px; border-bottom: 1px solid var(--border-color); display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 15px; }
-        .lesson-card:last-child { border-bottom: none; }
-        .lesson-title { font-weight: 700; font-size: 1.1rem; color: var(--primary-dark); flex: 1; min-width: 200px; }
-        .lesson-links { display: flex; gap: 10px; flex-wrap: wrap; }
-        .btn-link { padding: 8px 14px; border-radius: 6px; font-size: 0.9rem; text-decoration: none; font-weight: 500; }
-        .btn-video { background: #EBF8FF; color: #2B6CB0; border: 1px solid #BEE3F8; }
-        .btn-pdf { background: #FFF5F5; color: #C53030; border: 1px solid #FED7D7; }
-        .btn-worksheets { background: #FEFCBF; color: #744210; border: 1px solid #FAF089; }
-        .btn-quiz { background: #F0FFF4; color: #22543D; border: 1px solid #C6F6D5; }
-        .loading { text-align: center; padding: 40px; font-size: 1.2rem; color: var(--primary); }
+        :root {
+            --primary-green: #0a5244;
+            --gold-accent: #c59b27;
+            --bg-light: #f8fafc;
+            --text-dark: #1e293b;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg-light);
+            margin: 0;
+            padding: 0;
+            color: var(--text-dark);
+            direction: rtl;
+        }
+
+        /* شريط تنقل علوي بسيط للعودة */
+        .top-bar {
+            background-color: #05332a;
+            color: white;
+            padding: 10px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .top-bar a {
+            color: white;
+            text-decoration: none;
+            font-weight: bold;
+            font-size: 14px;
+        }
+        .btn-logout {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 6px 14px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 13px;
+        }
+
+        /* الهيدر الرئيسي المطابق للصورة */
+        .hero-header {
+            background-color: var(--primary-green);
+            color: white;
+            text-align: center;
+            padding: 35px 20px;
+            border-bottom: 5px solid var(--gold-accent);
+        }
+        .hero-header h1 {
+            margin: 0 0 10px 0;
+            font-size: 32px;
+            font-weight: bold;
+        }
+        .hero-header p {
+            margin: 0;
+            font-size: 16px;
+            opacity: 0.9;
+        }
+
+        /* الحاوية الرئيسية */
+        .container {
+            max-width: 750px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        /* تصميم شريط الوحدة المنسدل */
+        .unit-accordion {
+            background-color: white;
+            border-radius: 12px;
+            margin-bottom: 18px;
+            box-shadow: 0 4px 6px -1px rgba(0,0,0,0.06);
+            overflow: hidden;
+        }
+
+        .unit-summary {
+            background-color: var(--primary-green);
+            color: white;
+            padding: 18px 25px;
+            font-size: 20px;
+            font-weight: bold;
+            cursor: pointer;
+            list-style: none; /* إخفاء سهم المتصفح الافتراضي */
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background 0.2s ease;
+            border-radius: 12px;
+        }
+
+        /* تغيير اتجاه السهم عند الفتح */
+        .unit-summary::-webkit-details-marker { display: none; }
+        .unit-summary::before {
+            content: "▼";
+            font-size: 14px;
+            transition: transform 0.3s ease;
+        }
+        .unit-accordion[open] .unit-summary::before {
+            transform: rotate(180deg);
+        }
+
+        .unit-summary:hover {
+            background-color: #073f34;
+        }
+
+        /* المحتوى الداخلي عند فتح الوحدة */
+        .unit-content {
+            padding: 20px 25px;
+            background-color: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-top: none;
+            border-bottom-left-radius: 12px;
+            border-bottom-right-radius: 12px;
+        }
+
+        .lessons-list {
+            display: grid;
+            gap: 12px;
+        }
+
+        .lesson-card {
+            background: #f8fafc;
+            border: 1px solid #cbd5e1;
+            padding: 14px 18px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .lesson-card h4 {
+            margin: 0;
+            font-size: 16px;
+            color: var(--text-dark);
+        }
+
+        .btn-video {
+            background-color: #ef4444;
+            color: white;
+            text-decoration: none;
+            padding: 6px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: bold;
+        }
     </style>
 </head>
 <body>
 
-<header>
-    <a href="index.html" class="back-link">← الرئيسية</a>
+<div class="top-bar">
+    <a href="materials.html">🏠 العودة للصفوف</a>
+    <button class="btn-logout" onclick="logout()">تسجيل الخروج</button>
+</div>
+
+<div class="hero-header">
     <h1>الصف الرابع الأساسي</h1>
     <p>اختر الوحدة الدراسية لعرض الدروس والمطالعة</p>
-</header>
+</div>
 
-<div class="container" id="unitsContainer">
-    <div class="loading">جاري جلب الوحدات والدروس من جدول البيانات...</div>
+<div class="container">
+
+    <!-- الوحدة الأولى -->
+    <details class="unit-accordion">
+        <summary class="unit-summary">
+            <span>الأولى: من قصص القرآن الكريم</span>
+        </summary>
+        <div class="unit-content">
+            <div class="lessons-list">
+                <div class="lesson-card">
+                    <h4>📖 أستمع بانتباه وتركيز</h4>
+                </div>
+                <div class="lesson-card">
+                    <h4>🗣️ أسرد قصة</h4>
+                </div>
+                <div class="lesson-card">
+                    <h4>📘 نملة سليمان عليه السلام</h4>
+                </div>
+                <div class="lesson-card">
+                    <h4>✍️ الهمزات في بداية الكلمات</h4>
+                </div>
+                <div class="lesson-card">
+                    <h4>📝 أبني لغتي</h4>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- الوحدة الثانية -->
+    <details class="unit-accordion">
+        <summary class="unit-summary">
+            <span>الثَّانية: هوايتي</span>
+        </summary>
+        <div class="unit-content">
+            <div class="lessons-list">
+                <div class="lesson-card">
+                    <h4>🎨 لوحة طارق</h4>
+                </div>
+                <div class="lesson-card">
+                    <h4>✍️ التّاء والهاء في نهايات الكلمات</h4>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- الوحدة الثالثة -->
+    <details class="unit-accordion">
+        <summary class="unit-summary">
+            <span>الثَّالثة: أُحبُّ وطني</span>
+        </summary>
+        <div class="unit-content">
+            <div class="lessons-list">
+                <div class="lesson-card">
+                    <h4>🇯🇴 السّلام الملكي</h4>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- الوحدة الرابعة -->
+    <details class="unit-accordion">
+        <summary class="unit-summary">
+            <span>الرَّابعة: الغِذاء المتوازن</span>
+        </summary>
+        <div class="unit-content">
+            <div class="lessons-list">
+                <div class="lesson-card">
+                    <h4>🥗 دروس وحدة الغذاء المتوازن</h4>
+                </div>
+            </div>
+        </div>
+    </details>
+
+    <!-- الوحدة الخامسة -->
+    <details class="unit-accordion">
+        <summary class="unit-summary">
+            <span>الخامسة: النّحل</span>
+        </summary>
+        <div class="unit-content">
+            <div class="lessons-list">
+                <div class="lesson-card">
+                    <h4>🐝 دروس وحدة النحل</h4>
+                </div>
+            </div>
+        </div>
+    </details>
+
 </div>
 
 <script>
-    // رابط السيرفر الخاص بك
-    const scriptURL = 'https://script.google.com/macros/s/AKfycbydMYd8FjYMAxgxjnpr7uqBUFQ8LLhS7XV6SGqCEG-b4FWYxWVwrmSMeirIWOuBquLH/exec';
-
-    // تحديد الصف الرابع
-    const targetGrade = "4"; 
-
-    async function loadLessons() {
-        const container = document.getElementById('unitsContainer');
-        try {
-            const response = await fetch(scriptURL);
-            const data = await response.json();
-            
-            const gradeData = data.filter(item => {
-                const g = String(item.grade).trim();
-                return g === targetGrade || g.includes(targetGrade);
-            });
-
-            if (gradeData.length === 0) {
-                container.innerHTML = '<div class="loading">لا توجد دروس مضافة لهذا الصف في الجدول حالياً.</div>';
-                return;
-            }
-
-            container.innerHTML = '';
-            const grouped = {};
-            gradeData.forEach(item => {
-                if (!grouped[item.unit]) grouped[item.unit] = [];
-                grouped[item.unit].push(item);
-            });
-
-            for (const [unitName, lessons] of Object.entries(grouped)) {
-                const section = document.createElement('div');
-                section.className = 'unit-section';
-
-                let lessonsHTML = '';
-                lessons.forEach(l => {
-                    lessonsHTML += `
-                        <div class="lesson-card">
-                            <div class="lesson-title">${l.title}</div>
-                            <div class="lesson-links">
-                                ${l.video && l.video !== '#' ? `<a href="${l.video}" target="_blank" class="btn-link btn-video">شرح الفيديو</a>` : ''}
-                                ${l.pdf && l.pdf !== '#' ? `<a href="${l.pdf}" target="_blank" class="btn-link btn-pdf">الكتاب / PDF</a>` : ''}
-                                ${l.worksheets && l.worksheets !== '#' ? `<a href="${l.worksheets}" target="_blank" class="btn-link btn-worksheets">أوراق العمل</a>` : ''}
-                                ${l.quiz && l.quiz !== '#' ? `<a href="${l.quiz}" target="_blank" class="btn-link btn-quiz">الاختبار</a>` : ''}
-                            </div>
-                        </div>
-                    `;
-                });
-
-                section.innerHTML = `
-                    <div class="unit-header" onclick="this.parentElement.classList.toggle('active')">${unitName}</div>
-                    <div class="unit-content">${lessonsHTML}</div>
-                `;
-                container.appendChild(section);
-            }
-        } catch (error) {
-            container.innerHTML = '<div class="loading" style="color: #C53030;">حدث خطأ في الاتصال بالسيرفر، تأكد من صحة الرابط وصلاحيات النشر.</div>';
-        }
+    const user = JSON.parse(localStorage.getItem('user'));
+    if (!user) {
+        window.location.href = "login.html";
     }
 
-    loadLessons();
+    function logout() {
+        localStorage.removeItem('user');
+        window.location.href = "login.html";
+    }
 </script>
 
 </body>
