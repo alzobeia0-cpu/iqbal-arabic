@@ -3,106 +3,200 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>المواد التعليمية - منصة الإقبال</title>
+    <title>المراحل التعليمية - منصة الإقبال</title>
     <style>
         :root {
-            --primary: #2c3e50;
-            --secondary: #27ae60;
-            --accent: #2980b9;
-            --bg: #f4f7f6;
+            --primary: #1e293b;
+            --accent: #2563eb;
+            --bg: #f8fafc;
+            --card-bg: #ffffff;
         }
-        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background-color: var(--bg); margin: 0; padding: 0; }
-        
-        /* الهيدر */
-        header { background: var(--primary); color: white; padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; box-shadow: 0 2px 10px rgba(0,0,0,0.1); }
-        .logo { font-size: 22px; font-weight: bold; }
-        .user-info { display: flex; align-items: center; gap: 15px; }
-        .btn-logout { background: #e74c3c; color: white; border: none; padding: 8px 15px; border-radius: 5px; cursor: pointer; font-weight: bold; }
-        
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--bg);
+            margin: 0;
+            padding: 0;
+            color: #334155;
+        }
+
+        /* الهيدر العلوي */
+        header {
+            background: var(--primary);
+            color: white;
+            padding: 15px 30px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .logo { font-size: 20px; font-weight: bold; }
+        .user-section { display: flex; align-items: center; gap: 15px; }
+        .btn-logout {
+            background: #ef4444;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 6px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+        .btn-logout:hover { background: #dc2626; }
+
         /* الحاوية الرئيسية */
-        .container { max-width: 1100px; margin: 30px auto; padding: 0 20px; }
-        .welcome-card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); margin-bottom: 25px; }
-        
-        /* تصفية الصفوف الدراسية */
-        .filter-section { margin-bottom: 25px; text-align: center; }
-        .filter-btn { background: white; border: 2px solid var(--accent); color: var(--accent); padding: 8px 18px; margin: 5px; border-radius: 20px; cursor: pointer; font-weight: bold; transition: 0.3s; }
-        .filter-btn.active, .filter-btn:hover { background: var(--accent); color: white; }
-        
-        /* شبكة الدروس والمواد */
-        .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; }
-        .card { background: white; border-radius: 10px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05); transition: transform 0.2s; }
-        .card:hover { transform: translateY(-5px); }
-        .card-header { background: var(--accent); color: white; padding: 15px; font-weight: bold; font-size: 18px; }
-        .card-body { padding: 20px; color: #555; }
-        .card-body p { margin: 5px 0 15px; font-size: 14px; }
-        .btn-view { display: block; text-align: center; background: var(--secondary); color: white; text-decoration: none; padding: 10px; border-radius: 6px; font-weight: bold; }
+        .container {
+            max-width: 1100px;
+            margin: 40px auto;
+            padding: 0 20px;
+        }
+
+        .welcome-header {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .welcome-header h1 {
+            color: var(--primary);
+            font-size: 28px;
+            margin-bottom: 10px;
+        }
+        .welcome-header p {
+            color: #64748b;
+            font-size: 16px;
+        }
+
+        /* شبكة المراحل الأربع */
+        .stages-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        /* تصميم الأيقونات/البطاقات الكبيرة */
+        .stage-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            padding: 35px 20px;
+            text-align: center;
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.05);
+            border: 2px solid #e2e8f0;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .stage-card:hover {
+            transform: translateY(-8px);
+            border-color: var(--accent);
+            box-shadow: 0 20px 30px -10px rgba(37, 99, 235, 0.15);
+        }
+
+        .stage-icon {
+            font-size: 55px;
+            margin-bottom: 20px;
+            background: #eff6ff;
+            width: 90px;
+            height: 90px;
+            line-height: 90px;
+            border-radius: 50%;
+            display: inline-block;
+        }
+
+        .stage-title {
+            font-size: 22px;
+            font-weight: bold;
+            color: var(--primary);
+            margin-bottom: 10px;
+        }
+
+        .stage-desc {
+            font-size: 14px;
+            color: #64748b;
+            margin-bottom: 20px;
+            line-height: 1.5;
+        }
+
+        .btn-enter {
+            width: 100%;
+            padding: 12px 0;
+            background: var(--accent);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-weight: bold;
+            font-size: 15px;
+            transition: 0.2s;
+        }
+
+        .stage-card:hover .btn-enter {
+            background: #1d4ed8;
+        }
     </style>
 </head>
 <body>
 
 <header>
     <div class="logo">📚 منصة الإقبال التعليمية</div>
-    <div class="user-info">
+    <div class="user-section">
         <span id="userName">أهلاً بك</span>
         <button class="btn-logout" onclick="logout()">تسجيل الخروج</button>
     </div>
 </header>
 
 <div class="container">
-    <div class="welcome-card">
-        <h2 id="welcomeMsg">مرحباً بك في قسم المواد التعليمية</h2>
-        <p>اختر الصف الدراسي للوصول إلى الشروحات، الكراسات التعليمية، وأوراق العمل.</p>
+    <div class="welcome-header">
+        <h1 id="welcomeTitle">مرحباً بك في منصة الإقبال</h1>
+        <p>اختر المرحلة التعليمية للانتقال إلى المقررات والدروس الخاصة بها</p>
     </div>
 
-    <!-- أزرار اختيار الصفوف -->
-    <div class="filter-section">
-        <button class="filter-btn active" onclick="filterGrade('all')">الكل</button>
-        <button class="filter-btn" onclick="filterGrade('grade9')">الصف التاسع</button>
-        <button class="filter-btn" onclick="filterGrade('grade10')">الصف العاشر</button>
-        <button class="filter-btn" onclick="filterGrade('secondary')">المرحلة الثانوية</button>
-    </div>
-
-    <!-- بطاقات المواد -->
-    <div class="grid" id="materialsGrid">
+    <!-- شبكة المراحل الأربع الكبرى -->
+    <div class="stages-grid">
         
-        <!-- بطاقة 1 -->
-        <div class="card grade9">
-            <div class="card-header">كراسة الإقبال - الصف التاسع</div>
-            <div class="card-body">
-                <p>تتضمن شرح القواعد وشواهد النحو والتمارين المقررة.</p>
-                <a href="#" class="btn-view" onclick="alert('قريباً: فتح الملف')">عرض الكراسة</a>
-            </div>
+        <!-- 1. الصفوف الأساسية -->
+        <div class="stage-card" onclick="openStage('basic')">
+            <div class="stage-icon">🌱</div>
+            <div class="stage-title">الصفوف الأساسية</div>
+            <div class="stage-desc">تأسيس المهارات والدروس المقررة للصفوف الأولى</div>
+            <button class="btn-enter">دخول المرحلة</button>
         </div>
 
-        <!-- بطاقة 2 -->
-        <div class="card grade10">
-            <div class="card-header">كراسة الإقبال - الصف العاشر</div>
-            <div class="card-body">
-                <p>الشرح الشامل للمنهاج، القواعد، والنصوص الأدبية.</p>
-                <a href="#" class="btn-view" onclick="alert('قريباً: فتح الملف')">عرض الكراسة</a>
-            </div>
+        <!-- 2. الأساسية العليا -->
+        <div class="stage-card" onclick="openStage('upper_basic')">
+            <div class="stage-icon">📘</div>
+            <div class="stage-title">الأساسية العليا</div>
+            <div class="stage-desc">منهاج اللغة العربية والقواعد للصفوف (7 - 10)</div>
+            <button class="btn-enter">دخول المرحلة</button>
         </div>
 
-        <!-- بطاقة 3 -->
-        <div class="card grade9 grade10">
-            <div class="card-header">أوراق عمل وتطبيقات نِحوِيّة</div>
-            <div class="card-body">
-                <p>تدريبات إضافية مجهزة للطباعة والمراجعة قبل الامتحانات.</p>
-                <a href="#" class="btn-view" onclick="alert('قريباً: فتح الملف')">تحميل الأوراق</a>
-            </div>
+        <!-- 3. الثانوية -->
+        <div class="stage-card" onclick="openStage('secondary')">
+            <div class="stage-icon">🎓</div>
+            <div class="stage-title">المرحلة الثانوية</div>
+            <div class="stage-desc">شروحات ومراجعات مرحلتي الأول ثانوي والتوجيهي</div>
+            <button class="btn-enter">دخول المرحلة</button>
+        </div>
+
+        <!-- 4. مرحلة البكالوريوس -->
+        <div class="stage-card" onclick="openStage('bachelor')">
+            <div class="stage-icon">🏛️</div>
+            <div class="stage-title">مرحلة البكالوريوس</div>
+            <div class="stage-desc">المساقات الجامعية والدراسات المتخصصة في اللغة العربية</div>
+            <button class="btn-enter">دخول المرحلة</button>
         </div>
 
     </div>
 </div>
 
 <script>
-    // الحماية والتحقق من الجلسة
+    // التأكد من تسجيل الدخول
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
         window.location.href = "login.html";
     } else {
         document.getElementById('userName').innerText = user.name || 'طالبنا العزيز';
-        document.getElementById('welcomeMsg').innerText = `أهلاً بك يا ${user.name || 'طالبنا العزيز'} في منصة الإقبال`;
+        document.getElementById('welcomeTitle').innerText = `أهلاً بك يا ${user.name || 'طالبنا العزيز'}`;
     }
 
     // تسجيل الخروج
@@ -111,21 +205,11 @@
         window.location.href = "login.html";
     }
 
-    // تصفية المواد حسب الصف
-    function filterGrade(grade) {
-        const cards = document.querySelectorAll('.card');
-        const buttons = document.querySelectorAll('.filter-btn');
-        
-        buttons.forEach(btn => btn.classList.remove('active'));
-        event.target.classList.add('active');
-
-        cards.forEach(card => {
-            if (grade === 'all' || card.classList.contains(grade)) {
-                card.style.display = 'block';
-            } else {
-                card.style.display = 'none';
-            }
-        });
+    // دالة الانتقال للمرحلة المختارة
+    function openStage(stageKey) {
+        alert("سيتم نقلك قريباً إلى محتوى هذه المرحلة: " + stageKey);
+        // يمكنك توجيه الطالب إلى صفحات فرعية لكل مرحلة مستقبلاً مثلاً:
+        // window.location.href = stageKey + ".html";
     }
 </script>
 
