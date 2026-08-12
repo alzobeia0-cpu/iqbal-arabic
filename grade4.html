@@ -188,12 +188,13 @@
 </div>
 
 <div class="container" id="unitsContainer">
-    <div class="loading-text">جاري تحميل الدروس من قاعدة البيانات... ⏳</div>
+    <div class="loading-text">جاري تحميل البيانات من جوجل شيت... ⏳</div>
 </div>
 
 <script>
-    // 1. ضع رابط Google Sheet المنشور كـ CSV هنا
-    const sheetCsvUrl = "ضع_رابط_CSV_الخاص_بجوجل_شيت_هنا";
+    // رابط تحويل الشيت الخاص بك إلى ملف CSV لتلقي البيانات تلقائياً
+    const sheetId = "1E8K4raHyPNcGz2yA9AICJCmJtfXX7BD7HxNMePr8W2g";
+    const sheetCsvUrl = `https://docs.google.com/spreadsheets/d/${sheetId}/export?format=csv`;
 
     async function fetchSheetData() {
         try {
@@ -201,17 +202,16 @@
             const csvData = await response.text();
             const rows = parseCSV(csvData);
             
-            // تجاوز السطر الأول (العناوين)
+            // استبعاد السطر الأول (العناوين)
             const dataRows = rows.slice(1);
             
-            // تجميع الدروس حسب اسم الوحدة
             const unitsMap = {};
             dataRows.forEach(row => {
                 const unitName = row[0]?.trim();
                 const lessonTitle = row[1]?.trim();
                 const lessonUrl = row[2]?.trim();
 
-                if (unitName) {
+                if (unitName && lessonTitle) {
                     if (!unitsMap[unitName]) unitsMap[unitName] = [];
                     unitsMap[unitName].push({ title: lessonTitle, url: lessonUrl });
                 }
@@ -222,7 +222,7 @@
             console.error("خطأ في جلب البيانات:", error);
             document.getElementById('unitsContainer').innerHTML = `
                 <div class="loading-text" style="color:#ef4444;">
-                    عذرًا، تعذر تحميل البيانات. التأكد من رابط جوجل شيت.
+                    عذرًا، تعذر تحميل البيانات. التأكد من مشاركة الجدول على الويب.
                 </div>`;
         }
     }
@@ -235,13 +235,18 @@
         const container = document.getElementById('unitsContainer');
         container.innerHTML = '';
 
+        if (Object.keys(unitsMap).length === 0) {
+            container.innerHTML = '<div class="loading-text">لا توجد دروس حاليًا في شيت جوجل.</div>';
+            return;
+        }
+
         Object.keys(unitsMap).forEach(unitName => {
             const lessons = unitsMap[unitName];
             
             let lessonsHTML = lessons.map(lesson => `
                 <div class="lesson-card">
                     <h4>${lesson.title}</h4>
-                    ${lesson.url ? `<a href="${lesson.url}" target="_blank" class="btn-link">🔗 عرض الدرس</a>` : ''}
+                    ${(lesson.url && lesson.url.startsWith('http')) ? `<a href="${lesson.url}" target="_blank" class="btn-link">🔗 عرض الدرس</a>` : ''}
                 </div>
             `).join('');
 
@@ -262,10 +267,8 @@
         });
     }
 
-    // تشغيل جلب البيانات عند الفتح
     fetchSheetData();
 
-    // التحقق من تسجيل الدخول
     const user = JSON.parse(localStorage.getItem('user'));
     if (!user) {
         window.location.href = "login.html";
