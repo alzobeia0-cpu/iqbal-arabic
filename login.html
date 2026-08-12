@@ -16,6 +16,8 @@
         button { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; border-radius: 8px; font-size: 1rem; font-weight: bold; cursor: pointer; transition: background 0.3s; }
         button:hover { background: #063C32; }
         .msg { text-align: center; margin-top: 15px; font-size: 0.9rem; color: #E53E3E; }
+        .switch-link { text-align: center; margin-top: 18px; font-size: 0.85rem; }
+        .switch-link a { color: var(--primary); font-weight: bold; }
     </style>
 </head>
 <body>
@@ -34,6 +36,7 @@
             <button type="submit" id="submitBtn">دخول</button>
             <div id="errorMsg" class="msg"></div>
         </form>
+        <div class="switch-link">ما عندك حساب؟ <a href="register.html">سجّل حساب جديد</a></div>
     </div>
 
     <script>
@@ -57,7 +60,11 @@
             .then(result => {
                 if (result.status === "success") {
                     localStorage.setItem('user', JSON.stringify(result.user));
-                    window.location.href = "dashboard.html";
+                    if (result.user.role === 'student') {
+                        window.location.href = "index.html";
+                    } else {
+                        window.location.href = "dashboard.html";
+                    }
                 } else {
                     errorMsg.textContent = result.message || "البريد الإلكتروني أو كلمة المرور غير صحيحة";
                     submitBtn.disabled = false;
