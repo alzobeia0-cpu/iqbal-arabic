@@ -64,7 +64,7 @@
             password: document.getElementById('password').value
         });
 
-        fetch(SCRIPT_URL + "?" + params.toString(), { method: 'POST' })
+        fetch(SCRIPT_URL + "?" + params.toString())
         .then(res => res.json())
         .then(data => {
             btn.disabled = false;
@@ -82,7 +82,7 @@
             btn.disabled = false;
             btn.innerText = "تسجيل الحساب";
             msg.className = "msg error";
-            msg.innerText = "تعذر الاتصال بقاعدة البيانات. تأكد من أن خيار Access في النشر مضبوط على Anyone.";
+            msg.innerText = "تعذر الاتصال بالموقع. تأكد من إعدادات النشر على Google Apps Script.";
         });
     });
 </script>
